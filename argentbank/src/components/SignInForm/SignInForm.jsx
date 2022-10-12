@@ -1,26 +1,26 @@
 import React, {ChangeEvent} from 'react';
-import user from '../../store/reducers/loginReducer';
-import { useDispatch } from 'react-redux'
+import userAction from '../../store/reducers/loginReducer';
+import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react';
-
-
-
-
-
+import store from '../../store/store';
+import { selectUser } from '../../selectors/selectUser';
 
 const SignInhtmlForm = () => {
+
 	const [value, setValue]= useState("")
+	const user=useSelector(selectUser)
 	const dispatch=useDispatch()
+	//const user=useSelector(selectUser)
 	
 	function change (e){	
 		let test=(e.target.value)
+		
 		console.log('test')
 		console.log(test)
 		setValue(test)
 		console.log('value')
-		console.log(value)		
-		
-	
+		console.log(value)
+		//dispatch(userAction())
 	}
 	
 
