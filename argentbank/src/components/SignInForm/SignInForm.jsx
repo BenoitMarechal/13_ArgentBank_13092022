@@ -13,8 +13,7 @@ const SignInhtmlForm = () => {
 	//const user=useSelector(selectUser)
 	
 	function change (e){	
-		let test=(e.target.value)
-		
+		let test=(e.target.value)		
 		console.log('test')
 		console.log(test)
 		setValue(test)

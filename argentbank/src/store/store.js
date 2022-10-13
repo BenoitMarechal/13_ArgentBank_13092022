@@ -3,6 +3,8 @@ import loginReducer from './reducers/loginReducer'
  
 export default configureStore({
     reducer: {
-        login: loginReducer,        
+        user: loginReducer,
     },
 })
+
+
