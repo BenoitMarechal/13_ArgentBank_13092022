@@ -8,7 +8,7 @@ import { setUser, setPassword, toggleRemember } from '../../store/slices/userSli
 const SignInhtmlForm = () => {
 	//const count = useSelector((state) => state.counter.value)
   const dispatch = useDispatch()
-  const remember=useSelector((state) => state.remember)
+  const yay=useSelector((state) => state.remember)
 	
 	
 	function getUser (e){			
@@ -19,7 +19,7 @@ const SignInhtmlForm = () => {
 	}
 	function switchRemember(){	
 		dispatch(toggleRemember())
-		console.log(remember)
+		console.log(yay)
 	}
 
 	
