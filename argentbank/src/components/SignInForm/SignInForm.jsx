@@ -1,26 +1,26 @@
-import React, {ChangeEvent} from 'react';
-import userAction from '../../store/reducers/loginReducer';
+import React  from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react';
-import store from '../../store/store';
-import { selectUser } from '../../selectors/selectUser';
+import { setUser, setPassword, toggleRemember } from '../../store/slices/userSlice';
+//import { useState } from 'react';
+//import store from '../../store/store';
+//import { selectUser } from '../../selectors/selectUser';
 
 const SignInhtmlForm = () => {
-
-	const [value, setValue]= useState("")
-	const user=useSelector(selectUser)
-	const dispatch=useDispatch()
-	//const user=useSelector(selectUser)
+	//const count = useSelector((state) => state.counter.value)
+  const dispatch = useDispatch()
+  const remember=useSelector((state) => state.remember)
 	
-	function change (e){	
-		let test=(e.target.value)		
-		console.log('test')
-		console.log(test)
-		setValue(test)
-		console.log('value')
-		console.log(value)
-		//dispatch(userAction())
+	
+	function getUser (e){			
+		dispatch(setUser(e.target.value))			
 	}
+	function getPassword (e){			
+		dispatch(setPassword((e.target.value)))			
+	}
+	function switchRemember(){	
+		dispatch(toggleRemember())
+	}
+
 	
 
 
@@ -31,14 +31,14 @@ const SignInhtmlForm = () => {
 			<form>
 				<div className='input-wrapper'>
 					<label htmlFor='username'>Username</label>
-					<input type='text' id='username' onChange={change} />
+					<input type='text' id='username' onChange={getUser} />
 				</div>
 				<div className='input-wrapper'>
 					<label htmlFor='password'>Password</label>
-					<input type='password' id='password' />
+					<input type='password' id='password' onChange={getPassword} />
 				</div>
 				<div className='input-remember'>
-					<input type='checkbox' id='remember-me' />
+					<input type='checkbox' id='remember-me' onClick={switchRemember}/>
 					<label htmlFor='remember-me'>Remember me</label>
 				</div>
 				{/* <!-- PLACEHOLDER DUE TO STATIC SITE --> */}
