@@ -19,6 +19,7 @@ const SignInhtmlForm = () => {
 	}
 	function switchRemember(){	
 		dispatch(toggleRemember())
+		console.log(remember)
 	}
 
 	
