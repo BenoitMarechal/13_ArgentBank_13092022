@@ -1,13 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    login:{
+   
         email: null,
         password:null,
-        remember: false,
-        
-    },
-    //remember: false,
+        remember: false,        
+    
    
   }
 
@@ -16,14 +14,13 @@ export const loginSlice=createSlice({
     initialState, 
     reducers:{
         setEmail:(state, action)=>{
-            state.login.email=action.payload
+            state.email=action.payload
         },
         setPassword:(state, action)=>{
-            state.login.password=action.payload
+            state.password=action.payload
         },
         toggleRemember:(state)=>{
-           // state.remember=!state.remember
-            state.login.remember=!state.login.remember
+            state.remember=!state.remember
         }
     }
 })

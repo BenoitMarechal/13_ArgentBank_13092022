@@ -1,37 +1,42 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-    user:{
+const initialState = {  
         email: null,
         password:null,
         firstName: null,
         lastName:null, 
         token:null, 
-        remember:false
-    }
-   
+        remember:false,
+        connected:false      
   }
+ 
 
-export const userSlice=createSlice({
+export const userSlice=createSlice(
+    
+    {
     name: "user", 
     initialState, 
     reducers:{
         setUserEmail:(state, action)=>{
-            state.user.email=action.payload           
+            state.email=action.payload           
         },
         setUserPassword:(state, action)=>{
-            state.user.password=action.payload           
+            state.password=action.payload           
         },
         setUserRemember:(state, action)=>{
-            state.user.remember=action.payload           
+            state.remember=action.payload           
         },
-        setUserAll:(state)=>{
-            state.user.email=state.login.email
-            state.user.password=state.login.password
-            state.user.remember=state.login.remember
-        }
+        setConnectedTrue:(state)=>{
+            state.connected=true
+        },
+        setConnectedFalse:(state)=>{
+            state.connected=false
+        },
+        toggleConnected:(state)=>{
+            state.connected=!state.connected
+        },
     }
 })
 
-export const {setUserEmail, setUserPassword, setUserRemember, setUserAll}=userSlice.actions
+export const {setUserEmail, setUserPassword, setUserRemember, setUserAll, setConnectedTrue, setConnectedFalse, toggleConnected}=userSlice.actions
 export default userSlice.reducer

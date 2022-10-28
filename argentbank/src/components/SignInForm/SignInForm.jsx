@@ -1,15 +1,14 @@
 import React  from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { setEmail, setPassword, toggleRemember } from '../../store/slices/loginSlice';
-import {setUserEmail, setUserPassword, setUserRemember, setUserAll} from '../../store/slices/userSlice'
-//import { useState } from 'react';
-//import store from '../../store/store';
-//import { selectUser } from '../../selectors/selectUser';
+import {setUserEmail, setUserPassword, setUserRemember, setConnectedTrue, setConnectedFalse, toggleConnected} from '../../store/slices/userSlice'
+
 
 const SignInhtmlForm = () => {
-	//const count = useSelector((state) => state.counter.value)
-  const dispatch = useDispatch()
- // const yay=useSelector((state) => state.remember)
+const dispatch = useDispatch()
+const loginEmail=useSelector((state)=>(state.loginReducer.email))
+const loginPassword=useSelector((state)=>(state.loginReducer.password))
+const loginRemember=useSelector((state)=>(state.loginReducer.remember))
 	
 	
 	function getEmail (e){			
@@ -21,19 +20,18 @@ const SignInhtmlForm = () => {
 	function switchRemember(){	
 		
 		dispatch(toggleRemember())
-		//console.log(yay)
-	}
-	//const yay=useSelector((state) => state.login.email)
+	}	
 	function loginSubmit(e){
 		e.preventDefault()
+		dispatch(setUserEmail(loginEmail))
+		dispatch(setUserPassword(loginPassword))
+		dispatch(setUserRemember(loginRemember))
+		if(loginEmail!==null){
+			dispatch(setConnectedTrue())
+		}
 		
-		//console.log(yay)
 	}
 	
-
-	
-
-
 	return (
 		<section className='sign-in-content' > 
 			<i className='fa fa-user-circle sign-in-icon'></i>
@@ -56,7 +54,7 @@ const SignInhtmlForm = () => {
 					Sign In
 				</a> */}
 				{/* <!-- SHOULD BE THE BUTTON BELOW --> */}
-				<button className='sign-in-button' onClick={loginSubmit}>Sign In</button>
+				<button className='sign-in-button' onClick={loginSubmit}>Sign In</button>				
 				{/* <!--  --> */}
 			</form>
 		</section>

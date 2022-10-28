@@ -1,8 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import logo from '../../assets/img/argentBankLogo.png';
 
+
+
 const Nav = () => {
+	const user=useSelector((state)=>state.userReducer)
+	const face=<i className='fa fa-user-circle'></i>
 	return (
 		<nav className='main-nav'>
 			<NavLink className={'main-nav-logo'} to='/'>
@@ -13,18 +18,22 @@ const Nav = () => {
 				/>
 				<h1 className='sr-only'>Argent Bank</h1>
 			</NavLink>
+
 			<div>
-				<NavLink className={'main-nav-item'} to={'/signin'}>
+				{user.connected?<NavLink className={'main-nav-item'} to={'/user'}>
+					<i className='fa fa-user-circle'></i>{user.email}
+			
+					
+				</NavLink>  :<NavLink className={'main-nav-item'} to={'/signin'}>
 					<i className='fa fa-user-circle'></i> Sign In
-				</NavLink>
-				<NavLink className={'main-nav-item'} to={'/user'}>
-					<i className='fa fa-user-circle'></i>
-					Tony
-				</NavLink>
-				<NavLink className={'main-nav-item'} to={'/'}>
+				</NavLink>}
+				{user.connected?	<NavLink className={'main-nav-item'} to={'/'}>
 					<i className='fa fa-sign-out'></i>
 					Sign Out
-				</NavLink>
+				</NavLink>:""}
+			
+				
+				
 			</div>
 		</nav>
 
