@@ -10,7 +10,7 @@ import User from './pages/User';
 import { Provider } from 'react-redux';
 import store from '../src/store/store';
 import { selectUser } from './selectors/selectUser';
-
+// kjehkjh
 function App() {
 	return (
 		<Provider store={store}>
