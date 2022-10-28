@@ -1,6 +1,7 @@
 import React  from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { setUser, setPassword, toggleRemember } from '../../store/slices/userSlice';
+import { setEmail, setPassword, toggleRemember } from '../../store/slices/loginSlice';
+import {setUserEmail, setUserPassword, setUserRemember, setUserAll} from '../../store/slices/userSlice'
 //import { useState } from 'react';
 //import store from '../../store/store';
 //import { selectUser } from '../../selectors/selectUser';
@@ -8,19 +9,27 @@ import { setUser, setPassword, toggleRemember } from '../../store/slices/userSli
 const SignInhtmlForm = () => {
 	//const count = useSelector((state) => state.counter.value)
   const dispatch = useDispatch()
-  const yay=useSelector((state) => state.remember)
+ // const yay=useSelector((state) => state.remember)
 	
 	
-	function getUser (e){			
-		dispatch(setUser(e.target.value))			
+	function getEmail (e){			
+		dispatch(setEmail(e.target.value))			
 	}
 	function getPassword (e){			
 		dispatch(setPassword((e.target.value)))			
 	}
 	function switchRemember(){	
+		
 		dispatch(toggleRemember())
-		console.log(yay)
+		//console.log(yay)
 	}
+	//const yay=useSelector((state) => state.login.email)
+	function loginSubmit(e){
+		e.preventDefault()
+		
+		//console.log(yay)
+	}
+	
 
 	
 
@@ -32,7 +41,7 @@ const SignInhtmlForm = () => {
 			<form>
 				<div className='input-wrapper'>
 					<label htmlFor='username'>Username</label>
-					<input type='text' id='username' onChange={getUser} />
+					<input type='text' id='username' onChange={getEmail} />
 				</div>
 				<div className='input-wrapper'>
 					<label htmlFor='password'>Password</label>
@@ -43,11 +52,11 @@ const SignInhtmlForm = () => {
 					<label htmlFor='remember-me'>Remember me</label>
 				</div>
 				{/* <!-- PLACEHOLDER DUE TO STATIC SITE --> */}
-				<a href='./user' className='sign-in-button'>
+				{/* <a href='./user' className='sign-in-button'>
 					Sign In
-				</a>
+				</a> */}
 				{/* <!-- SHOULD BE THE BUTTON BELOW --> */}
-				{/* <button className='sign-in-button'>Sign In</button> */}
+				<button className='sign-in-button' onClick={loginSubmit}>Sign In</button>
 				{/* <!--  --> */}
 			</form>
 		</section>

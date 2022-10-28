@@ -1,26 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    user: null,
-    password:null,
-    remember: false
+    user:{
+        email: null,
+        password:null,
+        firstName: null,
+        lastName:null, 
+        token:null, 
+        remember:false
+    }
+   
   }
 
 export const userSlice=createSlice({
     name: "user", 
     initialState, 
     reducers:{
-        setUser:(state, action)=>{
-            state.user=action.payload
+        setUserEmail:(state, action)=>{
+            state.user.email=action.payload           
         },
-        setPassword:(state, action)=>{
-            state.password=action.payload
+        setUserPassword:(state, action)=>{
+            state.user.password=action.payload           
         },
-        toggleRemember:(state)=>{
-            state.remember=!state.remember
+        setUserRemember:(state, action)=>{
+            state.user.remember=action.payload           
+        },
+        setUserAll:(state)=>{
+            state.user.email=state.login.email
+            state.user.password=state.login.password
+            state.user.remember=state.login.remember
         }
     }
 })
 
-export const {setUser, setPassword, toggleRemember}=userSlice.actions
+export const {setUserEmail, setUserPassword, setUserRemember, setUserAll}=userSlice.actions
 export default userSlice.reducer
