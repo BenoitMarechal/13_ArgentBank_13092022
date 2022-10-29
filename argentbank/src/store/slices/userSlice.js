@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {  
-        email: null,
+        email: "",
         password:null,
         firstName: null,
         lastName:null, 
@@ -35,8 +35,11 @@ export const userSlice=createSlice(
         toggleConnected:(state)=>{
             state.connected=!state.connected
         },
+        resetUser:()=>{
+            return initialState
+        }
     }
 })
 
-export const {setUserEmail, setUserPassword, setUserRemember, setUserAll, setConnectedTrue, setConnectedFalse, toggleConnected}=userSlice.actions
+export const {setUserEmail, setUserPassword, setUserRemember, setUserAll, setConnectedTrue, setConnectedFalse, toggleConnected, resetUser}=userSlice.actions
 export default userSlice.reducer
