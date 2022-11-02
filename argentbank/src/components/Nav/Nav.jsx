@@ -14,7 +14,8 @@ const Nav = () => {
 	const user=useSelector((state)=>state.userReducer)
 	//const face=<i className='fa fa-user-circle'></i>^
 	function resetForm(form){
-		if (form!==undefined){
+		console.log(form)
+		if (form!==null){
 			form.value=""
 		}
 	}
@@ -28,7 +29,7 @@ const Nav = () => {
 		resetForm(userNameForm)
 		resetForm(passWordForm)
 		let rememberCheckBox=document.getElementById("remember-me")
-		if(rememberCheckBox.checked){
+		if(rememberCheckBox!==null && rememberCheckBox.checked){
 			rememberCheckBox.checked=false
 		}
 		//dispatch(setRememberFalse())

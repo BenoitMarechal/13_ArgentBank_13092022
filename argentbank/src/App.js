@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import './App.css';
 import SignIn from './pages/SignIn';
 import User from './pages/User';
+
 import { Provider } from 'react-redux';
 import store from '../src/store/store';
 function App() {
