@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import './App.css';
 import SignIn from './pages/SignIn';
-import User from './pages/User';
+import Profile from './pages/Profile';
 
 import { Provider } from 'react-redux';
 import store from '../src/store/store';
@@ -17,7 +17,7 @@ function App() {
 			<Routes>
 				<Route path='/' element={<Home />} />
 				<Route path='/signIn' element={<SignIn />} />
-				<Route path='/user' element={<User />} />
+				<Route path='/profile' element={<Profile />} />
 			</Routes>
 		</BrowserRouter>
 		</React.StrictMode>

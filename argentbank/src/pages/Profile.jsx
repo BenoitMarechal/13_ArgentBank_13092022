@@ -5,7 +5,7 @@ import Nav from '../components/Nav/Nav';
 import AllAccounts from '../assets/accountsStaticData';
 import AccountWrapper from '../components/AccountWrapper/AccountWrapper';
 
-const User = () => {
+const Profile = () => {
 	let editBtn = {
 		btnClass: 'edit-button',
 		btnText: 'Edit Name',
@@ -44,4 +44,4 @@ const User = () => {
 	);
 };
 
-export default User;
+export default Profile;

@@ -20,7 +20,7 @@ const Nav = () => {
 		}
 	}
 	function signOutFunction(e){
-		e.preventDefault()
+		//e.preventDefault()
 		console.log('sign out')
 		//dispatch(resetLogin())
 		dispatch(resetUser())
