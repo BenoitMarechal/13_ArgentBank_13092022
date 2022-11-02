@@ -30,8 +30,7 @@ const Nav = () => {
 		resetForm(passWordForm)
 		let rememberCheckBox=document.getElementById("remember-me")
 		if(rememberCheckBox!==null && rememberCheckBox.checked){												
-			rememberCheckBox.checked=false
-		}
+			rememberCheckBox.checked=false}
 		
 
 
@@ -48,7 +47,7 @@ const Nav = () => {
 			</NavLink>
 
 			<div>
-				{user.connected?<NavLink className={'main-nav-item'} to={'/user'}>
+				{user.connected?<NavLink className={'main-nav-item'} to={'/profile'}>
 					<i className='fa fa-user-circle'></i>{user.firstName}
 			
 					

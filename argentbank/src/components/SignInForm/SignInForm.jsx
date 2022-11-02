@@ -5,7 +5,11 @@ import {setUserEmail,  setRemember, resetUser, setConnectedTrue,setFirstName, se
 
 const SignInhtmlForm = () => {
 const dispatch = useDispatch()
-	function loginSubmit(e){
+function fetchFromToken(){
+
+}
+
+function loginSubmit(e){
 		e.preventDefault()
 		dispatch(resetUser())		
 		let userNameFormValue=document.getElementById('username').value
@@ -29,10 +33,10 @@ const dispatch = useDispatch()
 			 console.log('Success:', data)	
 		
 		let currentToken=data.body.token
-		dispatch(setToken(currentToken))			
 		dispatch(setRemember())	
-		dispatch(setConnectedTrue())
-		///////////////////////////
+		dispatch(setToken(currentToken))	
+		//////Should stop here
+		dispatch(setConnectedTrue())		
 		let profileUrl='http://localhost:3001/api/v1/user/profile'
 		fetch(profileUrl, {
 			method:'POST',
