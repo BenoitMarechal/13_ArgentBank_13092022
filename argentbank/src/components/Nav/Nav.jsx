@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import logo from '../../assets/img/argentBankLogo.png';
-import { resetLogin ,setRememberFalse} from '../../store/slices/loginSlice';
+//import { resetLogin ,setRememberFalse} from '../../store/slices/loginSlice';
 import { resetUser } from '../../store/slices/userSlice';
 //import {setUserEmail, setUserPassword, setUserRemember, setConnectedTrue, setConnectedFalse, toggleConnected} from '../../store/slices/loginSlice'
 
@@ -21,7 +21,7 @@ const Nav = () => {
 	function signOutFunction(e){
 		e.preventDefault()
 		console.log('sign out')
-		dispatch(resetLogin())
+		//dispatch(resetLogin())
 		dispatch(resetUser())
 		let userNameForm=document.getElementById("username")
 		let passWordForm=document.getElementById("password")
@@ -48,7 +48,7 @@ const Nav = () => {
 
 			<div>
 				{user.connected?<NavLink className={'main-nav-item'} to={'/user'}>
-					<i className='fa fa-user-circle'></i>{user.email}
+					<i className='fa fa-user-circle'></i>{user.firstName}
 			
 					
 				</NavLink>  :<NavLink className={'main-nav-item'} to={'/signin'}>

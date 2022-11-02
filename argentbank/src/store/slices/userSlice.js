@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {  
-        email: "",
-        password:null,
+        email: "",       
         firstName: null,
         lastName:null, 
         token:null, 
@@ -20,12 +19,21 @@ export const userSlice=createSlice(
         setUserEmail:(state, action)=>{
             state.email=action.payload           
         },
-        setUserPassword:(state, action)=>{
-            state.password=action.payload           
-        },
+        
         setUserRemember:(state, action)=>{
             state.remember=action.payload           
         },
+        setRemember:(state)=>{
+            let target=document.getElementById('remember-me')
+            if (target&&target.checked===true){
+                state.remember=true
+            }
+            else{
+                state.remember=false
+            }
+        },
+
+
         setConnectedTrue:(state)=>{
             state.connected=true
         },
@@ -35,11 +43,20 @@ export const userSlice=createSlice(
         toggleConnected:(state)=>{
             state.connected=!state.connected
         },
+        setToken:(state, action)=>{
+            state.token=action.payload
+        },
+        setFirstName:(state, action)=>{
+            state.firstName=action.payload
+        },
+        setLastName:(state, action)=>{
+            state.lastName=action.payload
+        },
         resetUser:()=>{
             return initialState
         }
     }
 })
 
-export const {setUserEmail, setUserPassword, setUserRemember, setUserAll, setConnectedTrue, setConnectedFalse, toggleConnected, resetUser}=userSlice.actions
+export const {setUserEmail,  setUserRemember, setUserAll,setRemember, setConnectedTrue,setFirstName, setLastName, setConnectedFalse,setToken, toggleConnected, resetUser}=userSlice.actions
 export default userSlice.reducer

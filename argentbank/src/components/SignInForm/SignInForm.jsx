@@ -1,50 +1,60 @@
 import React  from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import { setEmail, setPassword, toggleRemember } from '../../store/slices/loginSlice';
-import {setUserEmail, setUserPassword, setUserRemember, setConnectedTrue, setConnectedFalse, toggleConnected} from '../../store/slices/userSlice'
+import { useDispatch } from 'react-redux'
+import {setUserEmail,  setRemember, resetUser, setConnectedTrue,setFirstName, setLastName, setToken} from '../../store/slices/userSlice'
+
 
 const SignInhtmlForm = () => {
 const dispatch = useDispatch()
-const loginEmail=useSelector((state)=>(state.loginReducer.email))
-const loginPassword=useSelector((state)=>(state.loginReducer.password))
-const loginRemember=useSelector((state)=>(state.loginReducer.remember))
-
-	
-	
-	function getEmail (e){			
-		dispatch(setEmail(e.target.value))			
-	}
-	function getPassword (e){			
-		dispatch(setPassword((e.target.value)))			
-	}
-	function switchRemember(){			
-		dispatch(toggleRemember())
-	}	
-	// function loginSubmit(e){
-	// 	e.preventDefault()
-	// 	dispatch(setUserEmail(loginEmail))
-	// 	dispatch(setUserPassword(loginPassword))
-	// 	dispatch(setUserRemember(loginRemember))
-	// 	if(loginEmail!==""){
-	// 		dispatch(setConnectedTrue())
-	// 	}
-		
-	// }
-	function loginSubmit2(e){
+	function loginSubmit(e){
 		e.preventDefault()
+		dispatch(resetUser())		
 		let userNameFormValue=document.getElementById('username').value
 		let passwordFormValue=document.getElementById('password').value
-		//console.log(userNameFormValue)
-		dispatch(setUserEmail(userNameFormValue))
-		dispatch(setUserPassword(passwordFormValue))
-		dispatch(setUserRemember(loginRemember))
-		if(userNameFormValue!==""){
-			dispatch(setConnectedTrue())
+		let loginBody={
+			"email":userNameFormValue,
+			"password":passwordFormValue
 		}
-		if(userNameFormValue===""){
-			dispatch(setConnectedFalse())
-		}
-
+		let loginUrl='http://localhost:3001/api/v1/user/login'	   
+		
+		   fetch(loginUrl, {
+			method:'POST',
+			headers:{
+				'Content-Type': 'application/json',
+			},
+			
+			body:JSON.stringify(loginBody)
+		   })  
+		   .then((response) =>    response.json())
+		   .then((data) => {
+			 console.log('Success:', data)	
+		
+		let currentToken=data.body.token
+		dispatch(setToken(currentToken))			
+		dispatch(setRemember())	
+		dispatch(setConnectedTrue())
+		///////////////////////////
+		let profileUrl='http://localhost:3001/api/v1/user/profile'
+		fetch(profileUrl, {
+			method:'POST',
+			headers:{
+				'Content-Type': 'application/json',
+				'Authorization': "Bearer "+currentToken
+			}	
+		   })  
+		   .then((response) =>   response.json())
+		   .then((data) => {	
+			dispatch (setUserEmail(data.body.email))		 	
+			dispatch (setFirstName(data.body.firstName))
+			dispatch (setLastName(data.body.lastName))
+			})
+		   .catch((error) => {
+			 console.error('Error:', error);
+		   });
+		/////////////////////////////////
+		 })
+		   .catch((error) => {
+			 console.error('Error:', error);
+		   });
 		
 	}
 	
@@ -66,7 +76,9 @@ const loginRemember=useSelector((state)=>(state.loginReducer.remember))
 					 />
 				</div>
 				<div className='input-remember'>
-					<input type='checkbox' id='remember-me' onClick={switchRemember}/>
+					<input type='checkbox' id='remember-me' 
+					//onClick={switchRemember}
+					/>
 					<label htmlFor='remember-me'>Remember me</label>
 				</div>
 				{/* <!-- PLACEHOLDER DUE TO STATIC SITE --> */}
@@ -74,7 +86,7 @@ const loginRemember=useSelector((state)=>(state.loginReducer.remember))
 					Sign In
 				</a> */}
 				{/* <!-- SHOULD BE THE BUTTON BELOW --> */}
-				<button className='sign-in-button' onClick={loginSubmit2}>Sign In</button>				
+				<button className='sign-in-button' onClick={loginSubmit}>Sign In</button>				
 				{/* <!--  --> */}
 			</form>
 		</section>
