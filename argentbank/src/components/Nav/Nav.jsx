@@ -32,7 +32,7 @@ const Nav = () => {
 		if(rememberCheckBox!==null && rememberCheckBox.checked){
 			rememberCheckBox.checked=false
 		}
-		//dispatch(setRememberFalse())
+		
 
 
 	}
