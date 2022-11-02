@@ -30,6 +30,7 @@ const Nav = () => {
 		resetForm(passWordForm)
 		let rememberCheckBox=document.getElementById("remember-me")
 		if(rememberCheckBox!==null && rememberCheckBox.checked){
+			
 			rememberCheckBox.checked=false
 		}
 		
