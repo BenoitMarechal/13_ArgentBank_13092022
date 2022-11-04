@@ -4,8 +4,11 @@ import GreenButton from '../components/GreenButton/GreenButton';
 import Nav from '../components/Nav/Nav';
 import AllAccounts from '../assets/accountsStaticData';
 import AccountWrapper from '../components/AccountWrapper/AccountWrapper';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 const Profile = () => {
+	const user=useSelector((state)=>state.userReducer)
 	let editBtn = {
 		btnClass: 'edit-button',
 		btnText: 'Edit Name',
@@ -18,8 +21,9 @@ const Profile = () => {
 	return (
 		<div className='app'>
 			<Nav></Nav>
+			{user.connected?
 			<main className='main bg-dark'>
-				<div className='header'>
+			 <div className='header'>
 					<h1>
 						Welcome back
 						<br />
@@ -27,6 +31,7 @@ const Profile = () => {
 					</h1>
 					<GreenButton {...editBtn}></GreenButton>
 				</div>
+				
 				<h2 className='sr-only'>Accounts</h2>
 				{AllAccounts.map((account) => {
 					return (
@@ -38,7 +43,20 @@ const Profile = () => {
 						</section>
 					);
 				})}
-			</main>
+
+
+
+			</main>: 
+			
+			 <main className='main bg-dark'>
+			<div className='header'>
+					<h1>
+						Please <Link to='/signin'>log in</Link> before accessing your accounts						
+					</h1>
+				</div>
+				</main>
+				
+				}
 			<Footer />
 		</div>
 	);

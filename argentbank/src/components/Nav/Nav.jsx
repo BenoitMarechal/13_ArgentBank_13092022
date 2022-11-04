@@ -11,9 +11,7 @@ import { resetUser } from '../../store/slices/userSlice';
 
 
 const Nav = () => {
-	const dispatch = useDispatch()
-	
-	
+	const dispatch = useDispatch()		
 	const user=useSelector((state)=>state.userReducer)
 	//const face=<i className='fa fa-user-circle'></i>^
 	// function resetForm(form){
