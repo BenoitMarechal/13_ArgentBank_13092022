@@ -5,9 +5,9 @@ import {setUserEmail,  setRemember, resetUser, setConnectedTrue,setFirstName, se
 
 const SignInhtmlForm = () => {
 const dispatch = useDispatch()
-function fetchFromToken(){
+// function fetchFromToken(){
 
-}
+// }
 
 function loginSubmit(e){
 		e.preventDefault()
