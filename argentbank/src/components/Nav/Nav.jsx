@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import logo from '../../assets/img/argentBankLogo.png';
-import { useNavigate } from 'react-router-dom';
+
 //import { resetLogin ,setRememberFalse} from '../../store/slices/loginSlice';
 import { resetUser } from '../../store/slices/userSlice';
 //import {setUserEmail, setUserPassword, setUserRemember, setConnectedTrue, setConnectedFalse, toggleConnected} from '../../store/slices/loginSlice'
@@ -12,16 +12,16 @@ import { resetUser } from '../../store/slices/userSlice';
 
 const Nav = () => {
 	const dispatch = useDispatch()
-	let navigate=useNavigate()
+	
 	
 	const user=useSelector((state)=>state.userReducer)
 	//const face=<i className='fa fa-user-circle'></i>^
-	function resetForm(form){
-		console.log(form)
-		if (form!==null){
-			form.value=""
-		}
-	}
+	// function resetForm(form){
+	// 	console.log(form)
+	// 	if (form!==null){
+	// 		form.value=""
+	// 	}
+	// }
 	function signOutFunction(e){
 		console.log('sign out')
 		dispatch(resetUser())		
