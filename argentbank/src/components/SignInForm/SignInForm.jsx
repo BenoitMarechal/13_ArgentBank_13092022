@@ -31,7 +31,7 @@ function loginSubmit(e){
 		   .then((response) =>    response.json())
 		   .then((data) => {
 			 console.log('Success:', data)	
-		
+		if(data.body){
 		let currentToken=data.body.token
 		dispatch(setRemember())	
 		dispatch(setToken(currentToken))	
@@ -53,7 +53,7 @@ function loginSubmit(e){
 			})
 		   .catch((error) => {
 			 console.error('Error:', error);
-		   });
+		   });}
 		/////////////////////////////////
 		 })
 		   .catch((error) => {
