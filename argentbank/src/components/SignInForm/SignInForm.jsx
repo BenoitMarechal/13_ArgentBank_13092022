@@ -1,13 +1,14 @@
 import React  from 'react';
 import { useDispatch } from 'react-redux'
 import {setUserEmail,  setRemember, resetUser, setConnectedTrue,setFirstName, setLastName, setToken} from '../../store/slices/userSlice'
-
+import {  useNavigate } from "react-router-dom";
 
 const SignInhtmlForm = () => {
 const dispatch = useDispatch()
-function fetchFromToken(){
+let navigate = useNavigate()
+// function fetchFromToken(){
 
-}
+// }
 
 function loginSubmit(e){
 		e.preventDefault()
@@ -50,6 +51,7 @@ function loginSubmit(e){
 			dispatch (setUserEmail(data.body.email))		 	
 			dispatch (setFirstName(data.body.firstName))
 			dispatch (setLastName(data.body.lastName))
+			navigate("/profile")
 			})
 		   .catch((error) => {
 			 console.error('Error:', error);
