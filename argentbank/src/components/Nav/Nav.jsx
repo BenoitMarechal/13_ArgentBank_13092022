@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import logo from '../../assets/img/argentBankLogo.png';
+import { useNavigate } from 'react-router-dom';
 //import { resetLogin ,setRememberFalse} from '../../store/slices/loginSlice';
 import { resetUser } from '../../store/slices/userSlice';
 //import {setUserEmail, setUserPassword, setUserRemember, setConnectedTrue, setConnectedFalse, toggleConnected} from '../../store/slices/loginSlice'
@@ -11,6 +12,8 @@ import { resetUser } from '../../store/slices/userSlice';
 
 const Nav = () => {
 	const dispatch = useDispatch()
+	let navigate=useNavigate()
+	
 	const user=useSelector((state)=>state.userReducer)
 	//const face=<i className='fa fa-user-circle'></i>^
 	function resetForm(form){
@@ -20,20 +23,8 @@ const Nav = () => {
 		}
 	}
 	function signOutFunction(e){
-		//e.preventDefault()
 		console.log('sign out')
-		//dispatch(resetLogin())
-		dispatch(resetUser())
-		let userNameForm=document.getElementById("username")
-		let passWordForm=document.getElementById("password")
-		resetForm(userNameForm)
-		resetForm(passWordForm)
-		let rememberCheckBox=document.getElementById("remember-me")
-		if(rememberCheckBox!==null && rememberCheckBox.checked){												
-			rememberCheckBox.checked=false}
-		
-
-
+		dispatch(resetUser())		
 	}
 	return (
 		<nav className='main-nav'>
@@ -54,7 +45,9 @@ const Nav = () => {
 				</NavLink>  :<NavLink className={'main-nav-item'} to={'/signin'}>
 					<i className='fa fa-user-circle'></i> Sign In
 				</NavLink>}
-				{user.connected?	<NavLink className={'main-nav-item'} to={'/'} onClick={signOutFunction}>
+				{user.connected?	<NavLink className={'main-nav-item'} to={'/signin'} 
+				onClick={signOutFunction}
+				>
 					<i className='fa fa-sign-out'></i>
 					Sign Out
 				</NavLink>:""}
