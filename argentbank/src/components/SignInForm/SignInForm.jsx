@@ -27,7 +27,7 @@ const dispatch = useDispatch()
 		   .then((response) =>    response.json())
 		   .then((data) => {
 			 console.log('Success:', data)	
-		
+		if(data.body){
 		let currentToken=data.body.token
 		dispatch(setToken(currentToken))			
 		dispatch(setRemember())	
@@ -49,7 +49,7 @@ const dispatch = useDispatch()
 			})
 		   .catch((error) => {
 			 console.error('Error:', error);
-		   });
+		   });}
 		/////////////////////////////////
 		 })
 		   .catch((error) => {
