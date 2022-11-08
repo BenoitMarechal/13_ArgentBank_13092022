@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import logo from '../../assets/img/argentBankLogo.png';
-
 //import { resetLogin ,setRememberFalse} from '../../store/slices/loginSlice';
 import { resetUser } from '../../store/slices/userSlice';
 //import {setUserEmail, setUserPassword, setUserRemember, setConnectedTrue, setConnectedFalse, toggleConnected} from '../../store/slices/loginSlice'
@@ -24,6 +23,7 @@ const Nav = () => {
 		console.log('sign out')
 		dispatch(resetUser())		
 	}
+	
 	return (
 		<nav className='main-nav'>
 			<NavLink className={'main-nav-logo'} to='/'>
@@ -37,8 +37,7 @@ const Nav = () => {
 
 			<div>
 				{user.connected?<NavLink className={'main-nav-item'} to={'/profile'}>
-					<i className='fa fa-user-circle'></i>{user.firstName}
-			
+					<i className='fa fa-user-circle'></i>{user.firstName}			
 					
 				</NavLink>  :<NavLink className={'main-nav-item'} to={'/signin'}>
 					<i className='fa fa-user-circle'></i> Sign In

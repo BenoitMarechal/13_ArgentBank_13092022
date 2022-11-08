@@ -6,17 +6,36 @@ import AllAccounts from '../assets/accountsStaticData';
 import AccountWrapper from '../components/AccountWrapper/AccountWrapper';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import EditNameInput from '../components/EditNameInput/EditNameInput';
+import { toggleEdit } from '../store/slices/editSlice';
 
 const Profile = () => {
 	const user=useSelector((state)=>state.userReducer)
+	const dispatch=useDispatch()
+
 	let editBtn = {
 		btnClass: 'edit-button',
 		btnText: 'Edit Name',
+		action: handleEdit
 	};
 	let transactionBtn = {
 		btnClass: 'transaction-button',
 		btnText: 'View transactions',
 	};
+	// let editNameInputProps=
+	// 	[{
+	// 		screen:"First name",
+	// 		tech:"firstName"
+	// 	},
+	// 	{
+	// 		screen:"Last name",
+	// 		tech:"lastName"
+	// 	}]
+	
+	//console.log(editNameInputProps)
+	function handleEdit(e){
+		dispatch(toggleEdit())
+	}
 
 	return (
 		<div className='app'>
@@ -27,9 +46,19 @@ const Profile = () => {
 					<h1>
 						Welcome back
 						<br />
-						Tony Jarvis!
+						{user.firstName+' '}
+						{user.lastName}!
 					</h1>
-					<GreenButton {...editBtn}></GreenButton>
+
+					
+					<GreenButton {...editBtn} ></GreenButton>
+
+					<EditNameInput></EditNameInput>	
+					
+									
+
+
+
 				</div>
 				
 				<h2 className='sr-only'>Accounts</h2>
@@ -54,8 +83,7 @@ const Profile = () => {
 						Please <Link to='/signin'>log in</Link> before accessing your accounts						
 					</h1>
 				</div>
-				</main>
-				
+				</main>				
 				}
 			<Footer />
 		</div>
