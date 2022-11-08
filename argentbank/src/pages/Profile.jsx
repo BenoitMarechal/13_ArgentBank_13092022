@@ -7,15 +7,16 @@ import AccountWrapper from '../components/AccountWrapper/AccountWrapper';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import EditNameInput from '../components/EditNameInput/EditNameInput';
-import { toggleEdit } from '../store/slices/editSlice';
+import { setEditTrue, toggleEdit } from '../store/slices/editSlice';
 
 const Profile = () => {
 	const user=useSelector((state)=>state.userReducer)
+	const editOn=useSelector((state)=>state.editReducer.editOn)
 	const dispatch=useDispatch()
 
 	let editBtn = {
 		btnClass: 'edit-button',
-		btnText: 'Edit Name',
+		btnText: editOn?'Cancel':"Edit Name",
 		action: handleEdit
 	};
 	let transactionBtn = {
@@ -49,16 +50,8 @@ const Profile = () => {
 						{user.firstName+' '}
 						{user.lastName}!
 					</h1>
-
-					
 					<GreenButton {...editBtn} ></GreenButton>
-
-					<EditNameInput></EditNameInput>	
-					
-									
-
-
-
+					{editOn?<EditNameInput></EditNameInput>:""}					
 				</div>
 				
 				<h2 className='sr-only'>Accounts</h2>

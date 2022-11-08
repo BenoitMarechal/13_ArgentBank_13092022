@@ -12,6 +12,7 @@ const EditNameInput = () => {
         action: handleChangeName
 	};
     const user=useSelector((state)=>state.userReducer)
+    
     const dispatch=useDispatch()
     // function switchEditTrue(){dispatch(setEditTrue)}
     // function switchEditFlase(){dispatch(setEditFalse)}
