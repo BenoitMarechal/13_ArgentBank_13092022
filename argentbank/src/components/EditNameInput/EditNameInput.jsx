@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import GreenButton from '../GreenButton/GreenButton';
-import { setEditFalse, setEditTrue , toggleEdit} from '../../store/slices/editSlice';
-
+import { setEditFalse, setEditTrue , setNewFirstName, setNewLastName,  toggleEdit} from '../../store/slices/editSlice';
+import { setFirstName, setLastName } from '../../store/slices/userSlice';
 
 
 const EditNameInput = () => {
@@ -19,7 +19,36 @@ const EditNameInput = () => {
     // function startToggleEdit(){dispatch(toggleEdit)}
     function handleChangeName(e){    
         dispatch(toggleEdit())
-        ////logique POST etc        
+        let newFirstNameFormValue=document.getElementById('editFirstName').value
+		let newLastNameFormValue=document.getElementById('editLastName').value        
+        //AJOUTER COMPORTEMENT EN CAS DE CHAMPS VIDES
+        if (newFirstNameFormValue!==''&&newLastNameFormValue!==''){
+            let changeBody={
+                "firstName":newFirstNameFormValue,
+                "lastName":newLastNameFormValue
+            }
+            console.log(changeBody)           
+            let changeUrl='http://localhost:3001/api/v1/user/profile'	   
+		
+		   fetch(changeUrl, {
+			method:'PUT',
+			headers:{
+				'Content-Type': 'application/json',
+                'Authorization': "Bearer "+user.token
+			},
+			
+			body:JSON.stringify(changeBody)
+		   })  
+		   .then((response) =>    response.json())
+		   .then((data) => {
+			 console.log('Success:', data)
+             dispatch (setFirstName(data.body.firstName))
+			dispatch (setLastName(data.body.lastName))
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+        }
     }
     
     return (
