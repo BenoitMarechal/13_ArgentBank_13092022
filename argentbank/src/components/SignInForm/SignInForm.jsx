@@ -5,10 +5,7 @@ import {  useNavigate } from "react-router-dom";
 
 const SignInhtmlForm = () => {
 const dispatch = useDispatch()
-let navigate = useNavigate()
-// function fetchFromToken(){
-
-// }
+	let navigate = useNavigate()
 
 function loginSubmit(e){
 		e.preventDefault()
@@ -22,6 +19,7 @@ function loginSubmit(e){
 		let loginUrl='http://localhost:3001/api/v1/user/login'	   
 		
 		   fetch(loginUrl, {
+
 			method:'POST',
 			headers:{
 				'Content-Type': 'application/json',
@@ -32,6 +30,7 @@ function loginSubmit(e){
 		   .then((response) =>    response.json())
 		   .then((data) => {
 			 console.log('Success:', data)	
+
 		if(data.body){
 		let currentToken=data.body.token
 		dispatch(setRemember())	

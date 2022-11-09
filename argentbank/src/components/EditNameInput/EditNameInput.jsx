@@ -11,12 +11,8 @@ const EditNameInput = () => {
 		btnText: 'Change Name',
         action: handleChangeName
 	};
-    const user=useSelector((state)=>state.userReducer)
-    
+    const user=useSelector((state)=>state.userReducer)    
     const dispatch=useDispatch()
-    // function switchEditTrue(){dispatch(setEditTrue)}
-    // function switchEditFlase(){dispatch(setEditFalse)}
-    // function startToggleEdit(){dispatch(toggleEdit)}
     function handleChangeName(e){    
         dispatch(toggleEdit())
         let newFirstNameFormValue=document.getElementById('editFirstName').value
@@ -42,7 +38,7 @@ const EditNameInput = () => {
 		   .then((response) =>    response.json())
 		   .then((data) => {
 			 console.log('Success:', data)
-             dispatch (setFirstName(data.body.firstName))
+            dispatch (setFirstName(data.body.firstName))
 			dispatch (setLastName(data.body.lastName))
             })
             .catch((error) => {
@@ -54,12 +50,12 @@ const EditNameInput = () => {
     return (
         <div className='editNameInput_container'>
            <label htmlFor="firstName">First Name</label>
-            <input type="text" id="editFirstName" name="firstName" placeholder={user.firstName} >
+            <input type="text" id="editFirstName" name="firstName" defaultValue={user.firstName} >
             </input>
             <label htmlFor="lastName">Last Name</label>
-            <input type="text" id="editLastName" name="lastName" placeholder={user.lastName} >
+            <input type="text" id="editLastName" name="lastName" defaultValue={user.lastName} >
             </input>
-            <GreenButton {...sumbmitBtn} onClick={handleChangeName}></GreenButton>
+            <GreenButton {...sumbmitBtn} ></GreenButton>
         </div>
     );
 };
