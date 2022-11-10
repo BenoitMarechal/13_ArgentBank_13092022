@@ -1,5 +1,5 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   setUserEmail,
   setRemember,
@@ -8,6 +8,8 @@ import {
   setFirstName,
   setLastName,
   setToken,
+  setUserErrorTrue,
+  setPasswordErrorTrue,
 } from '../../store/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { logIn, retrieveUser } from '../../services/apiCalls';
@@ -15,6 +17,23 @@ import { logIn, retrieveUser } from '../../services/apiCalls';
 const SignInhtmlForm = () => {
   const dispatch = useDispatch();
   let navigate = useNavigate();
+
+  async function loginSubmit2(e) {
+    e.preventDefault();
+    dispatch(resetUser());
+    let userNameFormValue = document.getElementById('username').value;
+    let passwordFormValue = document.getElementById('password').value;
+    let login = await logIn(userNameFormValue, passwordFormValue);
+    if (login.message === 'Error: User not found!') {
+      dispatch(setUserErrorTrue());
+    }
+    if (login.message === 'Error: Password is invalid') {
+      dispatch(setPasswordErrorTrue());
+    }
+    if (login.status === 200) {
+      dispatch(setToken(login.body.token));
+    }
+  }
 
   function loginSubmit(e) {
     e.preventDefault();
@@ -70,13 +89,6 @@ const SignInhtmlForm = () => {
       .catch((error) => {
         console.error('Error:', error);
       });
-  }
-
-  function loginSubmit2(e) {
-    e.preventDefault();
-    dispatch(resetUser());
-    let token = logIn();
-    console.log(token);
   }
 
   return (

@@ -8,6 +8,8 @@ const initialState = {
   remember: false,
   connected: false,
   editOn: false,
+  userError: false,
+  passwordError: false,
 };
 
 export const userSlice = createSlice({
@@ -54,6 +56,12 @@ export const userSlice = createSlice({
     toggleEdit: (state) => {
       state.editOn = !state.editOn;
     },
+    setUserErrorTrue: (state) => {
+      state.userError = true;
+    },
+    setPasswordErrorTrue: (state) => {
+      state.passwordError = true;
+    },
   },
 });
 
@@ -70,5 +78,7 @@ export const {
   setToken,
   toggleConnected,
   resetUser,
+  setUserErrorTrue,
+  setPasswordErrorTrue,
 } = userSlice.actions;
 export default userSlice.reducer;
