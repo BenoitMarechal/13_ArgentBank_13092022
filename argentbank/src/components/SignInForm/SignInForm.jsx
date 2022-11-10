@@ -10,6 +10,7 @@ import {
   setToken,
 } from '../../store/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { logIn, retrieveUser } from '../../services/apiCalls';
 
 const SignInhtmlForm = () => {
   const dispatch = useDispatch();
@@ -71,6 +72,13 @@ const SignInhtmlForm = () => {
       });
   }
 
+  function loginSubmit2(e) {
+    e.preventDefault();
+    dispatch(resetUser());
+    let token = logIn();
+    console.log(token);
+  }
+
   return (
     <section className='sign-in-content'>
       <i className='fa fa-user-circle sign-in-icon'></i>
@@ -105,7 +113,7 @@ const SignInhtmlForm = () => {
 					Sign In
 				</a> */}
         {/* <!-- SHOULD BE THE BUTTON BELOW --> */}
-        <button className='sign-in-button' onClick={loginSubmit}>
+        <button className='sign-in-button' onClick={loginSubmit2}>
           Sign In
         </button>
         {/* <!--  --> */}
