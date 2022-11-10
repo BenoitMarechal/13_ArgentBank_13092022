@@ -42,7 +42,11 @@ export const userSlice = createSlice({
       state.connected = !state.connected;
     },
     setToken: (state, action) => {
-      state.token = action.payload;
+      if (state.remember) {
+        state.token = action.payload;
+      } else {
+        state.token = action.payload;
+      }
     },
     setFirstName: (state, action) => {
       state.firstName = action.payload;

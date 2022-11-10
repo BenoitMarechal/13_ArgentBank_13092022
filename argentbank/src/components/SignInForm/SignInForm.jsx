@@ -17,6 +17,7 @@ import { logIn, retrieveUser } from '../../services/apiCalls';
 const SignInhtmlForm = () => {
   const dispatch = useDispatch();
   let navigate = useNavigate();
+  const currentToken = useSelector((state) => state.userReducer.token);
 
   async function loginSubmit2(e) {
     e.preventDefault();
@@ -31,65 +32,86 @@ const SignInhtmlForm = () => {
       dispatch(setPasswordErrorTrue());
     }
     if (login.status === 200) {
+      dispatch(setRemember());
+      dispatch(setConnectedTrue());
       dispatch(setToken(login.body.token));
+      navigate('/profile');
     }
   }
 
-  function loginSubmit(e) {
-    e.preventDefault();
-    dispatch(resetUser());
-    let userNameFormValue = document.getElementById('username').value;
-    let passwordFormValue = document.getElementById('password').value;
-    let loginBody = {
-      email: userNameFormValue,
-
-      password: passwordFormValue,
-    };
-    let loginUrl = 'http://localhost:3001/api/v1/user/login';
-
-    fetch(loginUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-
-      body: JSON.stringify(loginBody),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Success:', data);
-
-        if (data.body) {
-          let currentToken = data.body.token;
-          dispatch(setRemember());
-          dispatch(setToken(currentToken));
-          //////Should stop here
-          dispatch(setConnectedTrue());
-          let profileUrl = 'http://localhost:3001/api/v1/user/profile';
-          fetch(profileUrl, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: 'Bearer ' + currentToken,
-            },
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              dispatch(setUserEmail(data.body.email));
-              dispatch(setFirstName(data.body.firstName));
-              dispatch(setLastName(data.body.lastName));
-              navigate('/profile');
-            })
-            .catch((error) => {
-              console.error('Error:', error);
-            });
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (currentToken !== null) {
+        console.log(currentToken);
+        let profile = await retrieveUser(currentToken);
+        console.log(profile);
+        if (profile.status === 200) {
+          dispatch(setUserEmail(profile.body.email));
+          dispatch(setFirstName(profile.body.firstName));
+          dispatch(setLastName(profile.body.lastName));
+        } else {
+          console.log('error');
         }
-        /////////////////////////////////
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }
+      }
+    };
+    fetchProfile();
+  }, [currentToken]);
+
+  // function loginSubmit(e) {
+  //   e.preventDefault();
+  //   dispatch(resetUser());
+  //   let userNameFormValue = document.getElementById('username').value;
+  //   let passwordFormValue = document.getElementById('password').value;
+  //   let loginBody = {
+  //     email: userNameFormValue,
+
+  //     password: passwordFormValue,
+  //   };
+  //   let loginUrl = 'http://localhost:3001/api/v1/user/login';
+
+  //   fetch(loginUrl, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+
+  //     body: JSON.stringify(loginBody),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log('Success:', data);
+
+  //       if (data.body) {
+  //         let currentToken = data.body.token;
+  //         dispatch(setRemember());
+  //         dispatch(setToken(currentToken));
+  //         //////Should stop here
+  //         dispatch(setConnectedTrue());
+  //         let profileUrl = 'http://localhost:3001/api/v1/user/profile';
+  //         fetch(profileUrl, {
+  //           method: 'POST',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //             Authorization: 'Bearer ' + currentToken,
+  //           },
+  //         })
+  //           .then((response) => response.json())
+  //           .then((data) => {
+  //             dispatch(setUserEmail(data.body.email));
+  //             dispatch(setFirstName(data.body.firstName));
+  //             dispatch(setLastName(data.body.lastName));
+  //             navigate('/profile');
+  //           })
+  //           .catch((error) => {
+  //             console.error('Error:', error);
+  //           });
+  //       }
+  //       /////////////////////////////////
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error:', error);
+  //     });
+  // }
 
   return (
     <section className='sign-in-content'>
