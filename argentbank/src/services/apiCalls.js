@@ -41,50 +41,51 @@ export async function retrieveUser(token) {
   }
 }
 
-export async function fetchEditName(user) {
+export async function fetchEditName(
+  user,
+  newFirstNameFormValue,
+  newLastNameFormValue
+) {
   //dispatch(toggleEdit());
-  let newFirstNameFormValue = document.getElementById('editFirstName').value;
-  let newLastNameFormValue = document.getElementById('editLastName').value;
   //AJOUTER COMPORTEMENT EN CAS DE CHAMPS VIDES
-  if (newFirstNameFormValue !== '' && newLastNameFormValue !== '') {
-    let changeBody = {
-      firstName: newFirstNameFormValue,
-      lastName: newLastNameFormValue,
-    };
-    let changeUrl = 'http://localhost:3001/api/v1/user/profile';
-    try {
-      const response = await fetch(changeUrl, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + user.token,
-        },
-        body: JSON.stringify(changeBody),
-      });
-      const result = await response.json();
-      return result;
-    } catch (err) {
-      return err;
-    }
 
-    // await fetch(changeUrl, {
-    //   method: 'PUT',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     Authorization: 'Bearer ' + user.token,
-    //   },
-
-    //   body: JSON.stringify(changeBody),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log('Success:', data);
-    //     return data;
-    //     // dispatch(setFirstName(data.body.firstName));
-    //     // dispatch(setLastName(data.body.lastName));
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error:', error);
-    //   });
+  let changeBody = {
+    firstName: newFirstNameFormValue,
+    lastName: newLastNameFormValue,
+  };
+  let changeUrl = 'http://localhost:3001/api/v1/user/profile';
+  try {
+    const response = await fetch(changeUrl, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + user.token,
+      },
+      body: JSON.stringify(changeBody),
+    });
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    return err;
   }
+
+  // await fetch(changeUrl, {
+  //   method: 'PUT',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     Authorization: 'Bearer ' + user.token,
+  //   },
+
+  //   body: JSON.stringify(changeBody),
+  // })
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     console.log('Success:', data);
+  //     return data;
+  //     // dispatch(setFirstName(data.body.firstName));
+  //     // dispatch(setLastName(data.body.lastName));
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error:', error);
+  //   });
 }

@@ -18,8 +18,11 @@ const SignInhtmlForm = () => {
   const dispatch = useDispatch();
   let navigate = useNavigate();
   const currentToken = useSelector((state) => state.userReducer.token);
+  const userError = useSelector((state) => state.userReducer.userError);
+  const passwordError = useSelector((state) => state.userReducer.passwordError);
 
-  async function loginSubmit2(e) {
+  async function loginSubmit(e) {
+    //avoids refreshing page
     e.preventDefault();
     dispatch(resetUser());
     let userNameFormValue = document.getElementById('username').value;
@@ -62,12 +65,8 @@ const SignInhtmlForm = () => {
       <form>
         <div className='input-wrapper'>
           <label htmlFor='username'>Username</label>
-          <input
-            type='text'
-            id='username'
-            autoComplete='email'
-            //onChange={getEmail}
-          />
+          <input type='text' id='username' autoComplete='email' />
+          {userError ? <div className='error'>User name not found</div> : ''}
         </div>
         <div className='input-wrapper'>
           <label htmlFor='password'>Password</label>
@@ -75,26 +74,16 @@ const SignInhtmlForm = () => {
             type='password'
             id='password'
             autoComplete='current-password'
-            //onChange={getPassword}
           />
+          {passwordError ? <div className='error'>Wrong password</div> : ''}
         </div>
         <div className='input-remember'>
-          <input
-            type='checkbox'
-            id='remember-me'
-            //onClick={switchRemember}
-          />
+          <input type='checkbox' id='remember-me' />
           <label htmlFor='remember-me'>Remember me</label>
         </div>
-        {/* <!-- PLACEHOLDER DUE TO STATIC SITE --> */}
-        {/* <a href='./user' className='sign-in-button'>
-					Sign In
-				</a> */}
-        {/* <!-- SHOULD BE THE BUTTON BELOW --> */}
-        <button className='sign-in-button' onClick={loginSubmit2}>
+        <button className='sign-in-button' onClick={loginSubmit}>
           Sign In
         </button>
-        {/* <!--  --> */}
       </form>
     </section>
   );
