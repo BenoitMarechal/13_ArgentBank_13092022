@@ -6,16 +6,18 @@ import {
   setLastName,
   toggleEdit,
 } from '../../store/slices/userSlice';
+import { fetchEditName } from '../../services/apiCalls';
 
 const EditNameInput = () => {
   let sumbmitBtn = {
     btnClass: 'edit-button',
     btnText: 'Change Name',
-    action: handleChangeName,
+    action: handleChangeName2,
   };
   const user = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
-  function handleChangeName(e) {
+
+  function handleChangeName() {
     dispatch(toggleEdit());
     let newFirstNameFormValue = document.getElementById('editFirstName').value;
     let newLastNameFormValue = document.getElementById('editLastName').value;
@@ -47,6 +49,14 @@ const EditNameInput = () => {
           console.error('Error:', error);
         });
     }
+  }
+
+  async function handleChangeName2(e) {
+    e.preventDefault();
+    dispatch(toggleEdit());
+    const newName = await fetchEditName(user);
+    dispatch(setFirstName(newName.body.firstName));
+    dispatch(setLastName(newName.body.lastName));
   }
 
   return (

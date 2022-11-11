@@ -25,8 +25,6 @@ export async function logIn(email, password) {
   }
 }
 export async function retrieveUser(token) {
-  console.log('token reçu');
-  console.log(token);
   let profileUrl = 'http://localhost:3001/api/v1/user/profile';
   try {
     const response = await fetch(profileUrl, {
@@ -43,43 +41,52 @@ export async function retrieveUser(token) {
   }
 }
 
-// await fetch(profileUrl, {
-//   method: 'POST',
-//   headers: {
-//     'Content-Type': 'application/json',
-//     Authorization: 'Bearer ' + token,
-//   },
-// })
-//   .then((response) => response.json())
-//   .then((data) => {
-//     console.log('Success:', data);
-//     return data;
-//   })
-//   .catch((error) => {
-//     console.error('Error:', error);
-//     return error;
-//   });
+export async function fetchEditName(user) {
+  //dispatch(toggleEdit());
+  let newFirstNameFormValue = document.getElementById('editFirstName').value;
+  let newLastNameFormValue = document.getElementById('editLastName').value;
+  //AJOUTER COMPORTEMENT EN CAS DE CHAMPS VIDES
+  if (newFirstNameFormValue !== '' && newLastNameFormValue !== '') {
+    let changeBody = {
+      firstName: newFirstNameFormValue,
+      lastName: newLastNameFormValue,
+    };
+    let changeUrl = 'http://localhost:3001/api/v1/user/profile';
+    try {
+      const response = await fetch(changeUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + user.token,
+        },
+        body: JSON.stringify(changeBody),
+      });
+      const result = await response.json();
+      console.log('result');
+      console.log(result);
+      return result;
+    } catch (err) {
+      return err;
+    }
 
-// export async function retrieveUser(token) {
-//   console.log('token reçu');
-//   console.log(token);
-//   let profileUrl = 'http://localhost:3001/api/v1/user/profile';
-//   await fetch(profileUrl, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Authorization: 'Bearer ' + token,
-//     },
-//   })
-//     .then((response) => response.json())
-//     .then((data) => {
-//       console.log('Success:', data);
-//       return data;
-//     })
-//     .catch((error) => {
-//       console.error('Error:', error);
-//       return error;
-//     });
-// }
+    // await fetch(changeUrl, {
+    //   method: 'PUT',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Authorization: 'Bearer ' + user.token,
+    //   },
 
-//export function editUserName(firstName, lastName, token) {}
+    //   body: JSON.stringify(changeBody),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log('Success:', data);
+    //     return data;
+    //     // dispatch(setFirstName(data.body.firstName));
+    //     // dispatch(setLastName(data.body.lastName));
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //   });
+  }
+}
