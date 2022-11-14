@@ -8,13 +8,13 @@ import thunk from 'redux-thunk';
 
 const reducers = combineReducers({
   userReducer,
-  userTempReducer,
+  // userTempReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['userTempReducer'],
+  // blacklist: ['userTempReducer'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

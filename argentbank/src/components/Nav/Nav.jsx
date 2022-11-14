@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import logo from '../../assets/img/argentBankLogo.png';
+import { useEffect } from 'react';
 //import { resetLogin ,setRememberFalse} from '../../store/slices/loginSlice';
 import { resetUser } from '../../store/slices/userSlice';
 //import {setUserEmail, setUserPassword, setUserRemember, setConnectedTrue, setConnectedFalse, toggleConnected} from '../../store/slices/loginSlice'
@@ -9,9 +10,33 @@ import { resetUser } from '../../store/slices/userSlice';
 const Nav = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userReducer);
-  function signOutFunction(e) {
+  function signOutFunction() {
     dispatch(resetUser());
+    window.sessionStorage.clear();
   }
+
+  const remember = useSelector((state) => state.userReducer.remember);
+  function checkIfRemembered() {
+    if (
+      window.sessionStorage.getItem('sessionOn') === null &&
+      remember === false
+    ) {
+      signOutFunction();
+      window.sessionStorage.setItem('sessionOn', true);
+    }
+  }
+
+  useEffect(() => {
+    if (
+      window.sessionStorage.getItem('sessionOn') === null &&
+      remember === false
+    ) {
+      signOutFunction();
+      window.sessionStorage.setItem('sessionOn', true);
+    }
+  }, []);
+
+  // checkIfRemembered();
 
   return (
     <nav className='main-nav'>
@@ -49,30 +74,6 @@ const Nav = () => {
         )}
       </div>
     </nav>
-
-    // 	<div>
-    // 		<a class='main-nav-item' href='./sign-in.html'>
-    // 			<i class='fa fa-user-circle'></i>
-    // 			Sign In
-    // 		</a>
-    // 	</div>
-
-    // <nav class='main-nav'>
-    // 	<a class='main-nav-logo' href='./index.html'>
-    // 		<img
-    // 			class='main-nav-logo-image'
-    // 			src='./img/argentBankLogo.png'
-    // 			alt='Argent Bank Logo'
-    // 		/>
-    // 		<h1 class='sr-only'>Argent Bank</h1>
-    // 	</a>
-    // 	<div>
-    // 		<a class='main-nav-item' href='./sign-in.html'>
-    // 			<i class='fa fa-user-circle'></i>
-    // 			Sign In
-    // 		</a>
-    // 	</div>
-    // </nav>
   );
 };
 

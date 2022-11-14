@@ -10,12 +10,10 @@ import { Provider } from 'react-redux';
 import store from '../src/store/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-import { useSelector } from 'react-redux';
 
 let persistor = persistStore(store);
 
 function App() {
-  const user = useSelector((state) => state.userReducer);
   return (
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>

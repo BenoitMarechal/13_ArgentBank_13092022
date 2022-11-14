@@ -22,8 +22,7 @@ const SignInhtmlForm = () => {
   const passwordError = useSelector((state) => state.userReducer.passwordError);
 
   async function loginSubmit(e) {
-    //avoids refreshing page
-    e.preventDefault();
+    e.preventDefault(); //avoids refreshing page
     dispatch(resetUser());
     let userNameFormValue = document.getElementById('username').value;
     let passwordFormValue = document.getElementById('password').value;
