@@ -53,6 +53,7 @@ export async function fetchEditName(
     firstName: newFirstNameFormValue,
     lastName: newLastNameFormValue,
   };
+  console.log(changeBody);
   let changeUrl = 'http://localhost:3001/api/v1/user/profile';
   try {
     const response = await fetch(changeUrl, {

@@ -54,11 +54,16 @@ const EditNameInput = () => {
   async function handleChangeName2() {
     let newFirstNameFormValue = document.getElementById('editFirstName').value;
     let newLastNameFormValue = document.getElementById('editLastName').value;
+    console.log(newFirstNameFormValue);
 
     // e.preventDefault();
     dispatch(toggleEdit());
     if (newFirstNameFormValue && newLastNameFormValue) {
-      const newName = await fetchEditName(user);
+      const newName = await fetchEditName(
+        user,
+        newFirstNameFormValue,
+        newLastNameFormValue
+      );
       console.log(newName);
       dispatch(setFirstName(newName.body.firstName));
       dispatch(setLastName(newName.body.lastName));
