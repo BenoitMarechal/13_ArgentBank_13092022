@@ -1,6 +1,6 @@
-import { setToken } from '../store/slices/userSlice';
-import { useDispatch } from 'react-redux';
-import { useState, useEffect } from 'react';
+// import { setToken } from '../store/slices/userSlice';
+// import { useDispatch } from 'react-redux';
+// import { useState, useEffect } from 'react';
 
 export async function logIn(email, password) {
   let loginBody = {
