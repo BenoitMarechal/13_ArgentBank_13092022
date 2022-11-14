@@ -53,7 +53,6 @@ export async function fetchEditName(
     firstName: newFirstNameFormValue,
     lastName: newLastNameFormValue,
   };
-  console.log(changeBody);
   let changeUrl = 'http://localhost:3001/api/v1/user/profile';
   try {
     const response = await fetch(changeUrl, {
@@ -69,24 +68,4 @@ export async function fetchEditName(
   } catch (err) {
     return err;
   }
-
-  // await fetch(changeUrl, {
-  //   method: 'PUT',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     Authorization: 'Bearer ' + user.token,
-  //   },
-
-  //   body: JSON.stringify(changeBody),
-  // })
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     console.log('Success:', data);
-  //     return data;
-  //     // dispatch(setFirstName(data.body.firstName));
-  //     // dispatch(setLastName(data.body.lastName));
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error:', error);
-  //   });
 }

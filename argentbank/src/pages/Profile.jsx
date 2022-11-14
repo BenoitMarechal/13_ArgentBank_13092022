@@ -24,18 +24,8 @@ const Profile = () => {
     btnClass: 'transaction-button',
     btnText: 'View transactions',
   };
-  // let editNameInputProps=
-  // 	[{
-  // 		screen:"First name",
-  // 		tech:"firstName"
-  // 	},
-  // 	{
-  // 		screen:"Last name",
-  // 		tech:"lastName"
-  // 	}]
 
-  //console.log(editNameInputProps)
-  function handleEdit(e) {
+  function handleEdit() {
     dispatch(toggleEdit());
   }
 
