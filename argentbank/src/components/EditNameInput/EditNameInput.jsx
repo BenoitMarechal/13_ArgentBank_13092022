@@ -4,9 +4,10 @@ import GreenButton from '../GreenButton/GreenButton';
 import {
   setFirstName,
   setLastName,
+  setToken,
   toggleEdit,
 } from '../../store/slices/userSlice';
-import { fetchEditName } from '../../services/apiCalls';
+import { fetchEditName, logIn } from '../../services/apiCalls';
 
 const EditNameInput = () => {
   const user = useSelector((state) => state.userReducer);
@@ -28,6 +29,13 @@ const EditNameInput = () => {
   async function handleChangeName() {
     let newFirstNameFormValue = document.getElementById('editFirstName').value;
     let newLastNameFormValue = document.getElementById('editLastName').value;
+
+    ////////////////////
+    let login = await logIn(user.email, user.password);
+    console.log(login.body.token);
+    dispatch(setToken(login.body.token));
+
+    ///////////////
 
     // e.preventDefault();
     dispatch(toggleEdit());

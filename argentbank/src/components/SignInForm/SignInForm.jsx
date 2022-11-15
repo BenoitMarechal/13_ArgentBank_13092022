@@ -10,6 +10,7 @@ import {
   setToken,
   setUserErrorTrue,
   setPasswordErrorTrue,
+  setPassword,
 } from '../../store/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { logIn, retrieveUser } from '../../services/apiCalls';
@@ -17,6 +18,7 @@ import { logIn, retrieveUser } from '../../services/apiCalls';
 const SignInhtmlForm = () => {
   const dispatch = useDispatch();
   let navigate = useNavigate();
+  const user = useSelector((state) => state.userReducer);
   const currentToken = useSelector((state) => state.userReducer.token);
   const userError = useSelector((state) => state.userReducer.userError);
   const passwordError = useSelector((state) => state.userReducer.passwordError);
@@ -24,8 +26,12 @@ const SignInhtmlForm = () => {
   async function loginSubmit(e) {
     e.preventDefault(); //avoids refreshing page
     dispatch(resetUser());
+    // dispatch(setUserEmail(document.getElementById('username').value));
+    // dispatch(setPassword(document.getElementById('password').value));
+
     let userNameFormValue = document.getElementById('username').value;
     let passwordFormValue = document.getElementById('password').value;
+
     let login = await logIn(userNameFormValue, passwordFormValue);
     if (login.message === 'Error: User not found!') {
       dispatch(setUserErrorTrue());
@@ -37,6 +43,7 @@ const SignInhtmlForm = () => {
       dispatch(setRemember());
       dispatch(setConnectedTrue());
       dispatch(setToken(login.body.token));
+      dispatch(setPassword(passwordFormValue));
       navigate('/profile');
     }
   }

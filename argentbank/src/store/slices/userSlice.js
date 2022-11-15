@@ -4,6 +4,7 @@ const initialState = {
   email: '',
   firstName: null,
   lastName: null,
+  password: '',
   token: null,
   remember: false,
   connected: false,
@@ -46,14 +47,13 @@ export const userSlice = createSlice({
       state.connected = !state.connected;
     },
     setToken: (state, action) => {
-      if (state.remember) {
-        state.token = action.payload;
-      } else {
-        state.token = action.payload;
-      }
+      state.token = action.payload;
     },
     setFirstName: (state, action) => {
       state.firstName = action.payload;
+    },
+    setPassword: (state, action) => {
+      state.password = action.payload;
     },
     setLastName: (state, action) => {
       state.lastName = action.payload;
@@ -86,6 +86,7 @@ export const {
   setConnectedFalse,
   setToken,
   toggleConnected,
+  setPassword,
   resetUser,
   setUserErrorTrue,
   setPasswordErrorTrue,

@@ -4,25 +4,43 @@ import { NavLink } from 'react-router-dom';
 import logo from '../../assets/img/argentBankLogo.png';
 import { useEffect } from 'react';
 //import { resetLogin ,setRememberFalse} from '../../store/slices/loginSlice';
-import { resetUser } from '../../store/slices/userSlice';
+import {
+  resetUser,
+  setRemember,
+  setUserErrorTrue,
+  setPasswordErrorTrue,
+  setToken,
+} from '../../store/slices/userSlice';
+import { useNavigate } from 'react-router-dom';
+import {
+  logIn,
+  // retrieveUser,
+} from '../../services/apiCalls';
 //import {setUserEmail, setUserPassword, setUserRemember, setConnectedTrue, setConnectedFalse, toggleConnected} from '../../store/slices/loginSlice'
 
 const Nav = () => {
   const dispatch = useDispatch();
+  //const navigate = useNavigate();
   const user = useSelector((state) => state.userReducer);
   function signOutFunction() {
     dispatch(resetUser());
     window.sessionStorage.clear();
   }
-
   const remember = useSelector((state) => state.userReducer.remember);
-  function checkIfRemembered() {
-    if (
-      window.sessionStorage.getItem('sessionOn') === null &&
-      remember === false
-    ) {
-      signOutFunction();
-      window.sessionStorage.setItem('sessionOn', true);
+
+  async function refreshToken() {
+    console.log('refresh token');
+    if (user.email !== '' && user.password !== '') {
+      let login = await logIn(user.email, user.password);
+      if (login.message === 'Error: User not found!') {
+        dispatch(setUserErrorTrue());
+      }
+      if (login.message === 'Error: Password is invalid') {
+        dispatch(setPasswordErrorTrue());
+      }
+      if (login.status === 200) {
+        dispatch(setToken(login.body.token));
+      }
     }
   }
 
@@ -33,6 +51,14 @@ const Nav = () => {
     ) {
       signOutFunction();
       window.sessionStorage.setItem('sessionOn', true);
+    } else {
+      //get new token as they only last 24hrs
+      if (
+        window.sessionStorage.getItem('sessionOn') === null &&
+        remember === true
+      ) {
+        refreshToken();
+      }
     }
   }, []);
 
