@@ -14,20 +14,19 @@ const Profile = () => {
   const user = useSelector((state) => state.userReducer);
   const editOn = useSelector((state) => state.userReducer.editOn);
   const dispatch = useDispatch();
+  function switchEdit() {
+    dispatch(toggleEdit());
+  }
 
   let editBtn = {
     btnClass: 'edit-button',
-    btnText: editOn ? 'Cancel' : 'Edit Name',
-    action: handleEdit,
+    btnText: 'Edit Name',
+    action: switchEdit,
   };
   let transactionBtn = {
     btnClass: 'transaction-button',
     btnText: 'View transactions',
   };
-
-  function handleEdit() {
-    dispatch(toggleEdit());
-  }
 
   return (
     <div className='app'>
@@ -38,10 +37,9 @@ const Profile = () => {
             <h1>
               Welcome back
               <br />
-              {user.firstName + ' '}
-              {user.lastName}!
+              {!editOn ? user.firstName + ' ' + user.lastName + '!' : ''}
             </h1>
-            <GreenButton {...editBtn}></GreenButton>
+            {!editOn ? <GreenButton {...editBtn}></GreenButton> : ''}
             {editOn ? <EditNameInput></EditNameInput> : ''}
           </div>
 

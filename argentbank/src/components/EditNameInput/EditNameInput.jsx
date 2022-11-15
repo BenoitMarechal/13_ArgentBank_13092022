@@ -9,13 +9,22 @@ import {
 import { fetchEditName } from '../../services/apiCalls';
 
 const EditNameInput = () => {
-  let sumbmitBtn = {
-    btnClass: 'edit-button',
-    btnText: 'Change Name',
-    action: handleChangeName,
-  };
   const user = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
+  let sumbmitBtn = {
+    btnClass: 'edit-button',
+    btnText: 'Save',
+    action: handleChangeName,
+  };
+  let editBtn = {
+    btnClass: 'edit-button',
+    btnText: user.editOn ? 'Cancel' : 'Edit Name',
+    action: switchEdit,
+  };
+  function switchEdit() {
+    dispatch(toggleEdit());
+  }
+
   async function handleChangeName() {
     let newFirstNameFormValue = document.getElementById('editFirstName').value;
     let newLastNameFormValue = document.getElementById('editLastName').value;
@@ -35,10 +44,7 @@ const EditNameInput = () => {
 
   return (
     <div className='editNameInput_container'>
-      <div className='editNameInput_item'>
-        <label htmlFor='firstName' className='editName-label'>
-          First Name
-        </label>
+      <div className='editNameInput_col editNameInput_col-left'>
         <input
           type='text'
           id='editFirstName'
@@ -46,11 +52,9 @@ const EditNameInput = () => {
           className='editName-input'
           defaultValue={user.firstName}
         ></input>
+        <GreenButton {...sumbmitBtn}></GreenButton>
       </div>
-      <div className='editNameInput_item'>
-        <label htmlFor='lastName' className='editName-label'>
-          Last Name
-        </label>
+      <div className='editNameInput_col editNameInput_col-right'>
         <input
           type='text'
           id='editLastName'
@@ -58,8 +62,8 @@ const EditNameInput = () => {
           className='editName-input'
           defaultValue={user.lastName}
         ></input>
+        <GreenButton {...editBtn}></GreenButton>
       </div>
-      <GreenButton {...sumbmitBtn}></GreenButton>
     </div>
   );
 };
