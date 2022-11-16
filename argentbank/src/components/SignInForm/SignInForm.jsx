@@ -8,6 +8,7 @@ import {
   setFirstName,
   setLastName,
   setToken,
+  setUserId,
   setUserErrorTrue,
   setPasswordErrorTrue,
   setPassword,
@@ -56,6 +57,7 @@ const SignInhtmlForm = () => {
           dispatch(setUserEmail(profile.body.email));
           dispatch(setFirstName(profile.body.firstName));
           dispatch(setLastName(profile.body.lastName));
+          dispatch(setUserId(profile.body.id));
         } else {
           console.log('error');
         }

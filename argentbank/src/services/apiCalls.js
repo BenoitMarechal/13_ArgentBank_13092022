@@ -5,6 +5,7 @@ export async function logIn(email, password) {
     password: password,
   };
   let loginUrl = 'http://localhost:3001/api/v1/user/login';
+  console.log('POST ' + loginUrl);
 
   try {
     const response = await fetch(loginUrl, {
@@ -15,6 +16,7 @@ export async function logIn(email, password) {
       body: JSON.stringify(loginBody),
     });
     const result = await response.json();
+    console.log(result);
     return result;
   } catch (err) {
     console.log(err);
@@ -23,6 +25,7 @@ export async function logIn(email, password) {
 }
 export async function retrieveUser(token) {
   let profileUrl = 'http://localhost:3001/api/v1/user/profile';
+  console.log('POST ' + profileUrl);
   try {
     const response = await fetch(profileUrl, {
       method: 'POST',
@@ -32,6 +35,7 @@ export async function retrieveUser(token) {
       },
     });
     const result = await response.json();
+    console.log(result);
     return result;
   } catch (err) {
     return err;
@@ -49,6 +53,7 @@ export async function fetchEditName(
     lastName: newLastNameFormValue,
   };
   let changeUrl = 'http://localhost:3001/api/v1/user/profile';
+  console.log('PUT ' + changeUrl);
   try {
     const response = await fetch(changeUrl, {
       method: 'PUT',
@@ -59,6 +64,7 @@ export async function fetchEditName(
       body: JSON.stringify(changeBody),
     });
     const result = await response.json();
+    console.log(result);
     return result;
   } catch (err) {
     return err;

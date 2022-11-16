@@ -11,6 +11,7 @@ const initialState = {
   editOn: false,
   userError: false,
   passwordError: false,
+  userId: null,
 };
 
 export const userSlice = createSlice({
@@ -19,6 +20,9 @@ export const userSlice = createSlice({
   reducers: {
     setUserEmail: (state, action) => {
       state.email = action.payload;
+    },
+    setUserId: (state, action) => {
+      state.userId = action.payload;
     },
 
     setUserRemember: (state, action) => {
@@ -71,7 +75,7 @@ export const userSlice = createSlice({
 
 export const {
   setUserEmail,
-
+  setUserId,
   setUserRemember,
   toggleEdit,
   setUserAll,
