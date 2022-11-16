@@ -1,7 +1,3 @@
-// import { setToken } from '../store/slices/userSlice';
-// import { useDispatch } from 'react-redux';
-// import { useState, useEffect } from 'react';
-
 export async function logIn(email, password) {
   console.log('demande login');
   let loginBody = {
@@ -19,7 +15,6 @@ export async function logIn(email, password) {
       body: JSON.stringify(loginBody),
     });
     const result = await response.json();
-    // console.log(result);
     return result;
   } catch (err) {
     console.log(err);

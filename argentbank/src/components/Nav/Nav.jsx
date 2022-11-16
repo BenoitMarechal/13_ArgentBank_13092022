@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 import logo from '../../assets/img/argentBankLogo.png';
 import { useEffect } from 'react';
 //import { resetLogin ,setRememberFalse} from '../../store/slices/loginSlice';
@@ -20,11 +20,12 @@ import {
 
 const Nav = () => {
   const dispatch = useDispatch();
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.userReducer);
   function signOutFunction() {
     dispatch(resetUser());
     window.sessionStorage.clear();
+    navigate('/');
   }
   const remember = useSelector((state) => state.userReducer.remember);
 

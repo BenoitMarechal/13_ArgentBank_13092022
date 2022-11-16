@@ -7,13 +7,11 @@ import thunk from 'redux-thunk';
 
 const reducers = combineReducers({
   userReducer,
-  // userTempReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  // blacklist: ['userTempReducer'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -21,7 +19,6 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 const store = configureStore({
   reducer: persistedReducer,
 
-  //devTools: process.env.NODE_ENV !== 'production',
   middleware: [thunk],
 });
 
