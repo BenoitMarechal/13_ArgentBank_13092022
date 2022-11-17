@@ -1,27 +1,17 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Navigate, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import logo from '../../assets/img/argentBankLogo.png';
 import { useEffect } from 'react';
-//import { resetLogin ,setRememberFalse} from '../../store/slices/loginSlice';
-import {
-  resetUser,
-  setRemember,
-  setUserErrorTrue,
-  setPasswordErrorTrue,
-  setToken,
-} from '../../store/slices/userSlice';
+import { setUser, resetUser } from '../../store/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
-import {
-  logIn,
-  // retrieveUser,
-} from '../../services/apiCalls';
-//import {setUserEmail, setUserPassword, setUserRemember, setConnectedTrue, setConnectedFalse, toggleConnected} from '../../store/slices/loginSlice'
+import { logIn } from '../../services/apiCalls';
 
 const Nav = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.userReducer);
+  const currentUser = useSelector((state) => state.userReducer);
+  let user = {};
   function signOutFunction() {
     dispatch(resetUser());
     window.sessionStorage.clear();
@@ -31,16 +21,16 @@ const Nav = () => {
 
   async function refreshToken() {
     console.log('refresh token');
-    if (user.email !== '' && user.password !== '') {
-      let login = await logIn(user.email, user.password);
+    if (currentUser.email !== '' && currentUser.password !== '') {
+      let login = await logIn(currentUser.email, currentUser.password);
       if (login.message === 'Error: User not found!') {
-        dispatch(setUserErrorTrue());
+        dispatch(setUser({ ...user, userError: true }));
       }
       if (login.message === 'Error: Password is invalid') {
-        dispatch(setPasswordErrorTrue());
+        dispatch(setUser({ ...user, passwordError: true }));
       }
       if (login.status === 200) {
-        dispatch(setToken(login.body.token));
+        dispatch(setUser({ ...user, token: login.body.token }));
       }
     }
   }
@@ -59,11 +49,10 @@ const Nav = () => {
         remember === true
       ) {
         refreshToken();
+        window.sessionStorage.setItem('sessionOn', true);
       }
     }
   }, []);
-
-  // checkIfRemembered();
 
   return (
     <nav className='main-nav'>
@@ -77,17 +66,17 @@ const Nav = () => {
       </NavLink>
 
       <div>
-        {user.connected ? (
+        {currentUser.connected ? (
           <NavLink className={'main-nav-item'} to={'/profile'}>
             <i className='fa fa-user-circle'></i>
-            {user.firstName}
+            {currentUser.firstName}
           </NavLink>
         ) : (
           <NavLink className={'main-nav-item'} to={'/signin'}>
             <i className='fa fa-user-circle'></i> Sign In
           </NavLink>
         )}
-        {user.connected ? (
+        {currentUser.connected ? (
           <NavLink
             className={'main-nav-item'}
             to={'/signin'}

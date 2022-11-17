@@ -1,24 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setUser,
-  setUserEmail,
-  setRemember,
-  resetUser,
-  setConnectedTrue,
-  setFirstName,
-  setLastName,
-  setToken,
-  setUserId,
-  setPassword,
-} from '../../store/slices/userSlice';
+import { setUser, resetUser } from '../../store/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { logIn, retrieveUser } from '../../services/apiCalls';
 
 const SignInhtmlForm = () => {
   const dispatch = useDispatch();
   let navigate = useNavigate();
-  //const storedUser = useSelector((state) => state.userReducer);
   const currentToken = useSelector((state) => state.userReducer.token);
   const userError = useSelector((state) => state.userReducer.userError);
   const passwordError = useSelector((state) => state.userReducer.passwordError);
@@ -28,7 +16,6 @@ const SignInhtmlForm = () => {
     dispatch(resetUser());
     let userNameFormValue = document.getElementById('username').value;
     let passwordFormValue = document.getElementById('password').value;
-
     let login = await logIn(userNameFormValue, passwordFormValue);
     if (login.message === 'Error: User not found!') {
       dispatch(setUser({ ...user, userError: true }));
@@ -39,21 +26,15 @@ const SignInhtmlForm = () => {
     if (login.status === 200) {
       //manage remember
       let target = document.getElementById('remember-me');
-      let remembered = null;
       if (target && target.checked === true) {
-        remembered = true;
+        user.remember = true;
       } else {
-        remembered = false;
+        user.remember = false;
       }
-      ////verif
-      // user.connected = true;
-      // user.token = login.body.token;
-      // user.password = passwordFormValue;
       dispatch(
         setUser({
           ...user,
           connected: true,
-          remember: remembered,
           token: login.body.token,
           password: passwordFormValue,
         })
@@ -76,10 +57,6 @@ const SignInhtmlForm = () => {
               userId: profile.body.id,
             })
           );
-          // dispatch(setUserEmail(profile.body.email));
-          // dispatch(setFirstName(profile.body.firstName));
-          // dispatch(setLastName(profile.body.lastName));
-          // dispatch(setUserId(profile.body.id));
         } else {
           console.log('error');
         }
