@@ -1,16 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import GreenButton from '../GreenButton/GreenButton';
-import {
-  setFirstName,
-  setLastName,
-  setToken,
-  toggleEdit,
-} from '../../store/slices/userSlice';
+import { setUser, toggleEdit } from '../../store/slices/userSlice';
 import { fetchEditName, logIn } from '../../services/apiCalls';
 
 const EditNameInput = () => {
-  const user = useSelector((state) => state.userReducer);
+  const currentUser = useSelector((state) => state.userReducer);
+  let user = {};
   const dispatch = useDispatch();
   let sumbmitBtn = {
     btnClass: 'edit-button',
@@ -19,7 +15,7 @@ const EditNameInput = () => {
   };
   let editBtn = {
     btnClass: 'edit-button',
-    btnText: user.editOn ? 'Cancel' : 'Edit Name',
+    btnText: currentUser.editOn ? 'Cancel' : 'Edit Name',
     action: switchEdit,
   };
   function switchEdit() {
@@ -31,9 +27,10 @@ const EditNameInput = () => {
     let newLastNameFormValue = document.getElementById('editLastName').value;
 
     ////////////////////
-    let login = await logIn(user.email, user.password);
+    let login = await logIn(currentUser.email, currentUser.password);
     console.log(login.body.token);
-    dispatch(setToken(login.body.token));
+    dispatch(setUser({ ...user, token: login.body.token }));
+    // dispatch(setToken(login.body.token));
 
     ///////////////
 
@@ -41,12 +38,14 @@ const EditNameInput = () => {
     dispatch(toggleEdit());
     if (newFirstNameFormValue && newLastNameFormValue) {
       const newName = await fetchEditName(
-        user,
+        currentUser,
         newFirstNameFormValue,
         newLastNameFormValue
       );
-      dispatch(setFirstName(newName.body.firstName));
-      dispatch(setLastName(newName.body.lastName));
+      dispatch(setUser({ ...user, firstName: newName.body.firstName }));
+      dispatch(setUser({ ...user, lastName: newName.body.lastName }));
+      // dispatch(setFirstName(newName.body.firstName));
+      // dispatch(setLastName(newName.body.lastName));
     }
   }
 
@@ -58,7 +57,7 @@ const EditNameInput = () => {
           id='editFirstName'
           name='firstName'
           className='editName-input'
-          defaultValue={user.firstName}
+          defaultValue={currentUser.firstName}
         ></input>
         <GreenButton {...sumbmitBtn}></GreenButton>
       </div>
@@ -68,7 +67,7 @@ const EditNameInput = () => {
           id='editLastName'
           name='lastName'
           className='editName-input'
-          defaultValue={user.lastName}
+          defaultValue={currentUser.lastName}
         ></input>
         <GreenButton {...editBtn}></GreenButton>
       </div>
