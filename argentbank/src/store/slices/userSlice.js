@@ -18,6 +18,9 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    setUser: (state, action) => {
+      return { ...state, ...action.payload };
+    },
     setUserEmail: (state, action) => {
       state.email = action.payload;
     },
@@ -74,6 +77,7 @@ export const userSlice = createSlice({
 });
 
 export const {
+  setUser,
   setUserEmail,
   setUserId,
   setUserRemember,

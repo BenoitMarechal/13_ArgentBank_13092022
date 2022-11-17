@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  setUser,
   setUserEmail,
   setRemember,
   resetUser,
@@ -9,8 +10,6 @@ import {
   setLastName,
   setToken,
   setUserId,
-  setUserErrorTrue,
-  setPasswordErrorTrue,
   setPassword,
 } from '../../store/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
@@ -19,32 +18,46 @@ import { logIn, retrieveUser } from '../../services/apiCalls';
 const SignInhtmlForm = () => {
   const dispatch = useDispatch();
   let navigate = useNavigate();
-  const user = useSelector((state) => state.userReducer);
+  //const storedUser = useSelector((state) => state.userReducer);
   const currentToken = useSelector((state) => state.userReducer.token);
   const userError = useSelector((state) => state.userReducer.userError);
   const passwordError = useSelector((state) => state.userReducer.passwordError);
-
+  let user = {};
   async function loginSubmit(e) {
     e.preventDefault(); //avoids refreshing page
     dispatch(resetUser());
-    // dispatch(setUserEmail(document.getElementById('username').value));
-    // dispatch(setPassword(document.getElementById('password').value));
-
     let userNameFormValue = document.getElementById('username').value;
     let passwordFormValue = document.getElementById('password').value;
 
     let login = await logIn(userNameFormValue, passwordFormValue);
     if (login.message === 'Error: User not found!') {
-      dispatch(setUserErrorTrue());
+      dispatch(setUser({ ...user, userError: true }));
     }
     if (login.message === 'Error: Password is invalid') {
-      dispatch(setPasswordErrorTrue());
+      dispatch(setUser({ ...user, passwordError: true }));
     }
     if (login.status === 200) {
-      dispatch(setRemember());
-      dispatch(setConnectedTrue());
-      dispatch(setToken(login.body.token));
-      dispatch(setPassword(passwordFormValue));
+      //manage remember
+      let target = document.getElementById('remember-me');
+      let remembered = null;
+      if (target && target.checked === true) {
+        remembered = true;
+      } else {
+        remembered = false;
+      }
+      ////verif
+      // user.connected = true;
+      // user.token = login.body.token;
+      // user.password = passwordFormValue;
+      dispatch(
+        setUser({
+          ...user,
+          connected: true,
+          remember: remembered,
+          token: login.body.token,
+          password: passwordFormValue,
+        })
+      );
       navigate('/profile');
     }
   }
@@ -54,10 +67,19 @@ const SignInhtmlForm = () => {
       if (currentToken !== null) {
         let profile = await retrieveUser(currentToken);
         if (profile.status === 200) {
-          dispatch(setUserEmail(profile.body.email));
-          dispatch(setFirstName(profile.body.firstName));
-          dispatch(setLastName(profile.body.lastName));
-          dispatch(setUserId(profile.body.id));
+          dispatch(
+            setUser({
+              ...user,
+              email: profile.body.email,
+              firstName: profile.body.firstName,
+              lastName: profile.body.lastName,
+              userId: profile.body.id,
+            })
+          );
+          // dispatch(setUserEmail(profile.body.email));
+          // dispatch(setFirstName(profile.body.firstName));
+          // dispatch(setLastName(profile.body.lastName));
+          // dispatch(setUserId(profile.body.id));
         } else {
           console.log('error');
         }
