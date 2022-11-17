@@ -118,19 +118,14 @@ paths:
         - Bearer: []
       tags:
         - Transactions Module
-      summary: Fetch Transaction(s).
-      description: API for fetching user's every transaction from last month, or a particular one from its id.
+      summary: Fetch All Transactions from user.
+      description: API for fetching user's every transaction from last month.
       parameters:
         - in: header
           type: string
           name: Authorization
           description: Attach Bearer JWT token
-          required: true
-        - in: query
-          type: string
-          name: id
-          description: Optionnal Id for a particular transaction, otherwise returns all transactions from the past month.
-          required: false
+          required: true        -
       produces:
         - application/json
       responses:
@@ -157,7 +152,7 @@ paths:
           required: true
         - in: body
           name: body
-          description: Complete transaction, but the id is empty
+          description: Complete transaction, but the ID IS EMPTY
           required: true
           schema:
             $ref: '#/definitions/Transaction'
@@ -169,17 +164,46 @@ paths:
           schema:
             $ref: '#/definitions/Transaction'
         '400':
-          description: Couldn't creat new transaction, please check database connection and/or user's token (renew login)
+          description: Couldn't create new transaction, please check database connection and/or user's token (renew login)
         '500':
           description: Internal Server Error
   /user/transactions/{id}:        
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Fetch a particular transaction.
+      description: API for fetching a particular transaction from its id.
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          type: string
+          name: id
+          description: Id of a particular transaction
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction retrieved successfully
+          schema:
+            $ref: '#/definitions/SingleTransactionResponse'
+        '400':
+          description: User's transaction could not be found or returned, please check database connection and/or user's token (renew login)
+        '500':
+          description: Internal Server Error
     put:
       security:
         - Bearer: []
       tags:
         - Transactions Module
       summary: Single Transaction Modification API
-      description: API for fetching user's particular transaction by id
+      description: Modify a transaction's category or note.
       parameters:
         - in: path
           type: string
@@ -195,7 +219,7 @@ paths:
           
         - in: body
           name: body
-          description: Update user profile attributes
+          description: New or modified attributes
           required: true
           schema:
             $ref: '#/definitions/EditTransactionBody'
@@ -203,13 +227,14 @@ paths:
         - application/json
       responses:
         '200':
-          description: User transaction retrieved successfully
+          description: User transaction modified successfully
           schema:
-            $ref: '#/definitions/CreateTransactionResponse'
+            $ref: '#/definitions/SingleTransactionResponse'
         '400':
-          description: User's transaction could not be found or returned, please check database connection, user's token (renew login) or transaction's id
+          description: User's transaction could not be found or modified, please check database connection, user's token (renew login) or transaction's id
         '500':
           description: Internal Server Error              
+    
     
 securityDefinitions:
   Bearer:
@@ -325,7 +350,7 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Transaction'
-  CreateTransactionResponse:
+  SingleTransactionResponse:
     properties:
       status:
         type: number
