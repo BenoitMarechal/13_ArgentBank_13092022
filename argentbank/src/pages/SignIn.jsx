@@ -4,15 +4,15 @@ import Nav from '../components/Nav/Nav';
 import SignInForm from '../components/SignInForm/SignInForm';
 
 const SignIn = () => {
-	return (
-		<div className='app'>
-			<Nav></Nav>
-			<main className='main bg-dark'>
-				<SignInForm />
-			</main>
-			<Footer />
-		</div>
-	);
+  return (
+    <div className='app'>
+      <Nav></Nav>
+      <main className='main bg-dark'>
+        <SignInForm />
+      </main>
+      <Footer />
+    </div>
+  );
 };
 
 export default SignIn;

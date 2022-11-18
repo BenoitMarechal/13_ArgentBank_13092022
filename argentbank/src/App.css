@@ -329,15 +329,9 @@ body,
 
 .editNameInput_col {
   display: flex;
-  /* width: 270px; */
   flex-direction: column;
   justify-content: space-between;
   margin: 0px 10px;
-  /* align-items: center; */
-  /* margin-bottom: 20px;
-  background-color: #00bc77;
-  padding: 5px;
-  border: 2px solid rgb(9, 93, 31); */
 }
 .editNameInput_col-left {
   align-items: flex-end;

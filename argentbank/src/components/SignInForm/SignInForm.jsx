@@ -62,6 +62,7 @@ const SignInhtmlForm = () => {
       }
     };
     fetchProfile();
+    // eslint-disable-next-line
   }, [currentToken]);
 
   return (
