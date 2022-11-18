@@ -20,7 +20,6 @@ const Nav = () => {
   const remember = useSelector((state) => state.userReducer.remember);
 
   async function refreshToken() {
-    console.log('refresh token');
     if (currentUser.email !== '' && currentUser.password !== '') {
       let login = await logIn(currentUser.email, currentUser.password);
       if (login.message === 'Error: User not found!') {
@@ -66,7 +65,7 @@ const Nav = () => {
       </NavLink>
 
       <div>
-        {currentUser.connected ? (
+        {currentUser.token ? (
           <NavLink className={'main-nav-item'} to={'/profile'}>
             <i className='fa fa-user-circle'></i>
             {currentUser.firstName}
@@ -76,7 +75,7 @@ const Nav = () => {
             <i className='fa fa-user-circle'></i> Sign In
           </NavLink>
         )}
-        {currentUser.connected ? (
+        {currentUser.token ? (
           <NavLink
             className={'main-nav-item'}
             to={'/signin'}

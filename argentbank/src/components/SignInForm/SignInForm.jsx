@@ -34,7 +34,6 @@ const SignInhtmlForm = () => {
       dispatch(
         setUser({
           ...user,
-          connected: true,
           token: login.body.token,
           password: passwordFormValue,
         })

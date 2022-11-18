@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  title: Bank Argent API documentation
+  title: ArgentBank  API documentation
   description: Contains all available API endpoints in this codebase
   version: '1.0.0'
   termsOfService: 'http://swagger.io/terms/'
@@ -112,6 +112,130 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+  /user/transactions/:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Fetch All Transactions from user.
+      description: API for fetching user's every transaction from last month.
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transactions retrieved successfully
+          schema:
+            $ref: '#/definitions/AllTransactionsResponse'
+        '400':
+          description: User's transactions could not be found or returned, please check database connection and/or user's token (renew login)
+        '500':
+          description: Internal Server Error
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Create a new transaction
+      description: Creates and saves a new transaction. Transaction is given an id by API and returned.
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Complete transaction, but the ID IS EMPTY
+          required: true
+          schema:
+            $ref: '#/definitions/Transaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction created successfully
+          schema:
+            $ref: '#/definitions/SingleTransactionResponse'
+        '400':
+          description: Couldn't create new transaction, please check database connection and/or user's token (renew login)
+        '500':
+          description: Internal Server Error
+  /user/transactions/{id}:        
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Fetch a particular transaction.
+      description: API for fetching a particular transaction from its id.
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          type: string
+          name: id
+          description: Id of a particular transaction
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction retrieved successfully
+          schema:
+            $ref: '#/definitions/SingleTransactionResponse'
+        '400':
+          description: User's transaction could not be found or returned, please check database connection and/or user's token (renew login)
+        '500':
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Single Transaction Modification API
+      description: Modify a transaction's category or note.
+      parameters:
+        - in: path
+          type: string
+          name: id
+          description: Id for a particular transaction
+          required: true
+         
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          
+        - in: body
+          name: body
+          description: New or modified attributes
+          required: true
+          schema:
+            $ref: '#/definitions/EditTransactionBody'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction modified successfully
+          schema:
+            $ref: '#/definitions/SingleTransactionResponse'
+        '400':
+          description: User's transaction could not be found or modified, please check database connection, user's token (renew login) or transaction's id
+        '500':
+          description: Internal Server Error              
+    
+    
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -140,6 +264,48 @@ definitions:
       password:
         type: string
         description: user password
+  UserProfile:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+  Transaction:
+    type: object
+    properties:
+      id:
+        type: string
+        description: transaction's id
+      date:
+        type: string
+        description: transaction's date
+      description:
+        type: string
+        description: Transaction's description
+      amount:
+        type: number
+        description: Transaction's amount in dollars
+      balance:
+        type: number
+        description: Account's balance after transaction
+      type:
+        type: string
+        description: Type of transaction
+      category:
+        type: string
+        description: Transaction's category
+      note:
+        type: string
+        description: Additional notes5
+  EditTransactionBody:
+    properties:
+        category:
+          type: string
+          description: user email
+        notes:
+          type: string
+          description: user password
   ApiResponse:
     type: object
     properties:
@@ -150,19 +316,47 @@ definitions:
       body:
         type: object
         properties:
-          id:
+          createdAt:
             type: string
           email:
+            type: string
+          firstNAme:
+            type: string
+          id:
+            type: string
+          lastName:
+            type: string
+          updatedAt:
             type: string
   LoginResponse:
     type: object
     properties:
-      token:
+      status:
+        type: integer
+      message:
         type: string
-  UserProfile:
-    type: object
+      body:
+        type: object
+        properties:
+          token:
+            type: string
+  AllTransactionsResponse:
     properties:
-      firstName:
+      status:
+        type: number
+      message:
         type: string
-      lastName:
+      body:
+        type: array
+        items:
+          $ref: '#/definitions/Transaction'
+  SingleTransactionResponse:
+    properties:
+      status:
+        type: number
+      message:
         type: string
+      body: 
+        $ref: '#/definitions/Transaction'    
+  
+  

@@ -7,15 +7,15 @@ import AccountWrapper from '../components/AccountWrapper/AccountWrapper';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import EditNameInput from '../components/EditNameInput/EditNameInput';
-import { toggleEdit } from '../store/slices/userSlice';
-//import { setEditTrue, toggleEdit } from '../store/slices/editSlice';
+import { setUser } from '../store/slices/userSlice';
 
 const Profile = () => {
-  const user = useSelector((state) => state.userReducer);
+  let user = {};
+  const currentUser = useSelector((state) => state.userReducer);
   const editOn = useSelector((state) => state.userReducer.editOn);
   const dispatch = useDispatch();
   function switchEdit() {
-    dispatch(toggleEdit());
+    dispatch(setUser({ ...user, editOn: !currentUser.editOn }));
   }
 
   let editBtn = {
@@ -31,13 +31,15 @@ const Profile = () => {
   return (
     <div className='app'>
       <Nav></Nav>
-      {user.connected ? (
+      {currentUser.token ? (
         <main className='main bg-dark'>
           <div className='header'>
             <h1>
               Welcome back
               <br />
-              {!editOn ? user.firstName + ' ' + user.lastName + '!' : ''}
+              {!editOn
+                ? currentUser.firstName + ' ' + currentUser.lastName + '!'
+                : ''}
             </h1>
             {!editOn ? <GreenButton {...editBtn}></GreenButton> : ''}
             {editOn ? <EditNameInput></EditNameInput> : ''}

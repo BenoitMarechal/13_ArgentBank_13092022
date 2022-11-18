@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import GreenButton from '../GreenButton/GreenButton';
-import { setUser, toggleEdit } from '../../store/slices/userSlice';
+import { setUser } from '../../store/slices/userSlice';
 import { fetchEditName, logIn } from '../../services/apiCalls';
 
 const EditNameInput = () => {
@@ -19,33 +19,28 @@ const EditNameInput = () => {
     action: switchEdit,
   };
   function switchEdit() {
-    dispatch(toggleEdit());
+    dispatch(setUser({ ...user, editOn: !currentUser.editOn }));
   }
 
   async function handleChangeName() {
     let newFirstNameFormValue = document.getElementById('editFirstName').value;
     let newLastNameFormValue = document.getElementById('editLastName').value;
-
-    ////////////////////
     let login = await logIn(currentUser.email, currentUser.password);
-    console.log(login.body.token);
     dispatch(setUser({ ...user, token: login.body.token }));
-    // dispatch(setToken(login.body.token));
-
-    ///////////////
-
-    // e.preventDefault();
-    dispatch(toggleEdit());
+    switchEdit();
     if (newFirstNameFormValue && newLastNameFormValue) {
       const newName = await fetchEditName(
         currentUser,
         newFirstNameFormValue,
         newLastNameFormValue
       );
-      dispatch(setUser({ ...user, firstName: newName.body.firstName }));
-      dispatch(setUser({ ...user, lastName: newName.body.lastName }));
-      // dispatch(setFirstName(newName.body.firstName));
-      // dispatch(setLastName(newName.body.lastName));
+      dispatch(
+        setUser({
+          ...user,
+          firstName: newName.body.firstName,
+          lastName: newName.body.lastName,
+        })
+      );
     }
   }
 
