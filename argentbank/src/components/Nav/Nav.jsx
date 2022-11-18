@@ -35,10 +35,12 @@ const Nav = () => {
   }
 
   useEffect(() => {
+    console.log();
     if (
       window.sessionStorage.getItem('sessionOn') === null &&
       remember === false
     ) {
+      console.log('signout');
       signOutFunction();
       window.sessionStorage.setItem('sessionOn', true);
     } else {
@@ -51,7 +53,7 @@ const Nav = () => {
         window.sessionStorage.setItem('sessionOn', true);
       }
     }
-  }, []);
+  });
 
   return (
     <nav className='main-nav'>
