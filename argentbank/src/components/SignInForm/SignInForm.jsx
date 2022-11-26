@@ -72,13 +72,19 @@ const SignInhtmlForm = () => {
       <form>
         <div className='input-wrapper'>
           <label htmlFor='username'>Username</label>
-          <input type='text' id='username' autoComplete='email' />
+          <input
+            type='text'
+            id='username'
+            autoComplete='email'
+            className='signin-input'
+          />
           {userError ? <div className='error'>User name not found</div> : ''}
         </div>
         <div className='input-wrapper'>
           <label htmlFor='password'>Password</label>
           <input
             type='password'
+            className='signin-input'
             id='password'
             autoComplete='current-password'
           />

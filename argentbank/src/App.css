@@ -55,8 +55,7 @@ body,
   font-weight: bold;
   color: #2c3e50;
 }
-
-.main-nav a.router-link-exact-active {
+.main-nav-item .main-nav a.router-link-exact-active {
   color: #42b983;
 }
 
@@ -164,8 +163,6 @@ body,
 .green-button {
   display: block;
   width: 100%;
-  /* padding: 8px;
-	font-size: 1.1rem; */
   font-weight: bold;
   margin-top: 1rem;
   border-color: #00bc77;
@@ -343,4 +340,36 @@ body,
   margin-bottom: 10px;
   height: 30px;
   padding-left: 10px;
+  width: 100px;
+}
+
+@media (max-width: 400px) {
+  .account-amount {
+    font-size: 2rem;
+  }
+  .main-nav__menu {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    font-size: 0.9rem;
+  }
+  .main-nav-item {
+    margin-right: 0;
+    margin-bottom: 4px;
+  }
+
+  .sign-in-content {
+    width: 80%;
+  }
+}
+
+@media (max-width: 320px) {
+  .main-nav {
+    padding: 5px 10px;
+  }
+  .main-nav-logo-image {
+    width: 120px;
+  }
 }

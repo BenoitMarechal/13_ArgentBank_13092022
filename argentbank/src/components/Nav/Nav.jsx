@@ -64,7 +64,7 @@ const Nav = () => {
         <h1 className='sr-only'>Argent Bank</h1>
       </NavLink>
 
-      <div>
+      <div className='main-nav__menu'>
         {currentUser.token ? (
           <NavLink className={'main-nav-item'} to={'/profile'}>
             <i className='fa fa-user-circle'></i>
